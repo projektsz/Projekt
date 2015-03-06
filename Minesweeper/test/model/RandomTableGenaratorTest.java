@@ -5,10 +5,6 @@
  */
 package model;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -18,40 +14,33 @@ import static org.junit.Assert.*;
  */
 public class RandomTableGenaratorTest {
 
-    public RandomTableGenaratorTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
-    }
-
     /**
      * Test of generateTable method, of class RandomTableGenarator.
      */
     @Test
     public void testGenerateTable() {
-        System.out.println("generateTable");
-        int xSize = 0;
-        int ySize = 0;
-        int countOfMines = 0;
+        int xSize = 10;
+        int ySize = 10;
+        int countOfMines = 25;
         RandomTableGenarator instance = new RandomTableGenarator();
-        Table expResult = null;
         Table result = instance.generateTable(xSize, ySize, countOfMines);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int countOfMinesOfResult = 0;
+        int countOfEmptyCellsOfResult = 0;
+
+        for (int i = 0; i < result.getXSize(); ++i) {
+            for (int j = 0; j < result.getYSize(); ++j) {
+                if (result.getField(i, j) == ITableGenerator.mine) {
+                    ++countOfMinesOfResult;
+                }
+                if (result.getField(i, j) == ITableGenerator.empty) {
+                    ++countOfEmptyCellsOfResult;
+                }
+            }
+
+        }
+        assertEquals(countOfEmptyCellsOfResult + countOfMinesOfResult,
+                xSize * ySize);
+        assertEquals(countOfMinesOfResult, countOfMines);
     }
 
 }

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/kmate/Documents/GitHub/Projekt/Minesweeper/src/model/Table.java</file>
+            <file>file:/C:/Users/kmate/Documents/GitHub/Projekt/Minesweeper/src/model/Model.java</file>
+            <file>file:/C:/Users/kmate/Documents/GitHub/Projekt/Minesweeper/test/model/ModelTest.java</file>
+            <file>file:/C:/Users/kmate/Documents/GitHub/Projekt/Minesweeper/src/model/RandomTableGenarator.java</file>
+            <file>file:/C:/Users/kmate/Documents/GitHub/Projekt/Minesweeper/src/model/FieldIsAllocatedException.java</file>
+            <file>file:/C:/Users/kmate/Documents/GitHub/Projekt/Minesweeper/src/model/IModel.java</file>
+            <file>file:/C:/Users/kmate/Documents/GitHub/Projekt/Minesweeper/src/model/ITableGenerator.java</file>
+            <file>file:/C:/Users/kmate/Documents/GitHub/Projekt/Minesweeper/test/model/RandomTableGenaratorTest.java</file>
+            <file>file:/C:/Users/kmate/Documents/GitHub/Projekt/Minesweeper/test/model/TableTest.java</file>
+        </group>
+    </open-files>
+</project-private>

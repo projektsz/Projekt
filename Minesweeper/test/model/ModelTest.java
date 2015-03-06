@@ -5,7 +5,6 @@
  */
 package model;
 
-import javafx.util.Pair;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -79,7 +78,7 @@ public class ModelTest {
         int y = 0;
         Model instance = new Model();
         boolean expResult = false;
-        boolean result = instance.isChecked(x, y);
+        boolean result = instance.isPushed(x, y);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -103,12 +102,12 @@ public class ModelTest {
      * Test of check method, of class Model.
      */
     @Test
-    public void testCheck() throws FieldIsAllocatedException {
+    public void testCheck() throws FieldIsPushedException {
         System.out.println("check");
         int x = 0;
         int y = 0;
         Model instance = new Model();
-        instance.check(x, y);
+        instance.push(x, y);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -120,8 +119,9 @@ public class ModelTest {
     public void testHint() {
         System.out.println("hint");
         Model instance = new Model();
-        Pair<Integer, Integer> expResult = null;
-        Pair<Integer, Integer> result = instance.hint();
+        IntPair expResult = null;
+        IntPair result;
+        result = instance.hint();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
