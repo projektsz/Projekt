@@ -18,39 +18,23 @@ import static org.junit.Assert.*;
  */
 public class TableTest {
 
-    public TableTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
-    }
-
     /**
-     * Test of getField method, of class Table.
+     * Test of constructor, of class Table.
      */
     @Test
-    public void testGetField() {
-        System.out.println("getField");
-        int x = 0;
-        int y = 0;
-        Table instance = null;
-        int expResult = 0;
-        int result = instance.getField(x, y);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testConstructor() {
+        Table table1 = new Table(10, 11);
+        assertEquals(table1.getXSize(), 10);
+        assertEquals(table1.getYSize(), 11);
+
+        Table table2 = new Table(10, 20, 42);
+        assertEquals(table2.getXSize(), 10);
+        assertEquals(table2.getYSize(), 20);
+        for (int i = 0; i < table2.getXSize(); ++i) {
+            for (int j = 0; j < table2.getYSize(); ++j) {
+                assertEquals(table2.getField(i, j), 42);
+            }
+        }
     }
 
     /**
@@ -58,14 +42,12 @@ public class TableTest {
      */
     @Test
     public void testSetField() {
-        System.out.println("setField");
-        int x = 0;
-        int y = 0;
-        int value = 0;
-        Table instance = null;
-        instance.setField(x, y, value);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Table table = new Table(10, 10, 42);
+        table.setField(5, 5, 5);
+        table.setField(6, 6, 6);
+
+        assertEquals(table.getField(5, 5), 5);
+        assertEquals(table.getField(6, 6), 6);
     }
 
 }

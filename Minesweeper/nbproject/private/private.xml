@@ -6,12 +6,11 @@
             <file>file:/C:/Users/kmate/Documents/GitHub/Projekt/Minesweeper/src/model/Table.java</file>
             <file>file:/C:/Users/kmate/Documents/GitHub/Projekt/Minesweeper/src/model/Model.java</file>
             <file>file:/C:/Users/kmate/Documents/GitHub/Projekt/Minesweeper/test/model/ModelTest.java</file>
+            <file>file:/C:/Users/kmate/Documents/GitHub/Projekt/Minesweeper/src/model/FieldIsPushedException.java</file>
             <file>file:/C:/Users/kmate/Documents/GitHub/Projekt/Minesweeper/src/model/RandomTableGenarator.java</file>
-            <file>file:/C:/Users/kmate/Documents/GitHub/Projekt/Minesweeper/src/model/FieldIsAllocatedException.java</file>
             <file>file:/C:/Users/kmate/Documents/GitHub/Projekt/Minesweeper/src/model/IModel.java</file>
             <file>file:/C:/Users/kmate/Documents/GitHub/Projekt/Minesweeper/src/model/ITableGenerator.java</file>
-            <file>file:/C:/Users/kmate/Documents/GitHub/Projekt/Minesweeper/test/model/RandomTableGenaratorTest.java</file>
-            <file>file:/C:/Users/kmate/Documents/GitHub/Projekt/Minesweeper/test/model/TableTest.java</file>
+            <file>file:/C:/Users/kmate/Documents/GitHub/Projekt/Minesweeper/src/model/IntPair.java</file>
         </group>
     </open-files>
 </project-private>

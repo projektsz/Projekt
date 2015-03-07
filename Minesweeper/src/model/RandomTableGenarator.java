@@ -12,7 +12,7 @@ class RandomTableGenarator implements ITableGenerator {
 
     /**
      * Generate a new table with xSize horizontal size and ySize vertical size,
-     * and fill mines
+     * and fill mines in random coordinates
      *
      * @param xSize new table's horizontal size
      * @param ySize new table's vertical size

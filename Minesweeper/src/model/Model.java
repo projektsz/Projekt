@@ -32,6 +32,9 @@ public class Model implements IModel {
         table = tableGenerator.generateTable(10, 10, countOfMines);
     }
 
+    /**
+     * See {@link IModel#createNew(int xSize, int ySize, int countOfMines)}
+     */
     @Override
     public void createNew(int xSize, int ySize, int countOfMines) {
         table = tableGenerator.generateTable(xSize, ySize, countOfMines);
@@ -39,21 +42,33 @@ public class Model implements IModel {
         this.countOfPushed = 0;
     }
 
+    /**
+     * See {@link IModel#isMine(int x, int y)}
+     */
     @Override
     public boolean isMine(int x, int y) {
         return table.getField(x, y) == ITableGenerator.mine;
     }
 
+    /**
+     * See {@link IModel#isPushed(int x, int y)}
+     */
     @Override
     public boolean isPushed(int x, int y) {
         return table.getField(x, y) == ITableGenerator.marks;
     }
 
+    /**
+     * See {@link IModel#isFine()}
+     */
     @Override
     public boolean isFine() {
         return countOfMines + countOfPushed == table.getXSize() * table.getYSize();
     }
 
+    /**
+     * See {@link IModel#push(int x, int y)}
+     */
     @Override
     public void push(int x, int y) throws FieldIsPushedException {
         if (isMine(x, y) || isPushed(x, y)) {
@@ -63,6 +78,9 @@ public class Model implements IModel {
         ++countOfPushed;
     }
 
+    /**
+     * See {@link IModel#hint()}
+     */
     @Override
     public IntPair hint() {
         throw new UnsupportedOperationException("");
