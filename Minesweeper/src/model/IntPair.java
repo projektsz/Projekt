@@ -1,16 +1,23 @@
 package model;
 
 /**
+ * Classic pair class like C++ style std::pair<int, int>. It has public first,
+ * second field compareTo method (implements Comparable).
  *
  * @author kmate
  */
-class IntPair implements Comparable<IntPair> {
+public class IntPair implements Comparable<IntPair> {
 
     public int first;
     public int second;
 
     public IntPair() {
         this(0, 0);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return first == ((IntPair) o).first && second == ((IntPair) o).second;
     }
 
     public IntPair(int first, int second) {

@@ -5,6 +5,8 @@
  */
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -18,35 +20,25 @@ import static org.junit.Assert.*;
  */
 public class ModelTest {
 
-    @BeforeClass
-    public static void setUpClass() {
-    }
+    private Model model;
+    private List<IntPair> mines;
 
-    @AfterClass
-    public static void tearDownClass() {
+    public ModelTest() {
+        mines = new ArrayList<>();
+        mines.add(new IntPair(10, 10));
+        mines.add(new IntPair(5, 5));
+        mines.add(new IntPair(2, 2));
+        mines.add(new IntPair(15, 9));
+        mines.add(new IntPair(7, 7));
     }
 
     @Before
     public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
-    }
-
-    /**
-     * Test of createNew method, of class Model.
-     */
-    @Test
-    public void testCreateNew() {
-        System.out.println("createNew");
-        int horisontalSize = 0;
-        int verticalSize = 0;
-        int countOfMines = 0;
-        Model instance = new Model();
-        instance.createNew(horisontalSize, verticalSize, countOfMines);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        SpecialTableGenerator gen = new SpecialTableGenerator();
+        for (int i = 0; i < mines.size(); ++i) {
+            gen.addMine(mines.get(i).first, mines.get(i).second);
+        }
+        model = new Model(gen);
     }
 
     /**
@@ -54,59 +46,78 @@ public class ModelTest {
      */
     @Test
     public void testIsMine() {
-        System.out.println("isMine");
-        int x = 0;
-        int y = 0;
-        Model instance = new Model();
-        boolean expResult = false;
-        boolean result = instance.isMine(x, y);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        model.createNew(20, 20, 5);
+        for (int i = 0; i < 20; ++i) {
+            for (int j = 0; j < 20; ++j) {
+                if (mines.contains(new IntPair(i, j))) {
+                    assertTrue(model.isMine(i, j));
+                } else {
+                    assertFalse(model.isMine(i, j));
+                }
+            }
+        }
     }
 
     /**
-     * Test of isChecked method, of class Model.
+     * Test of isPushed method, of class Model.
      */
     @Test
-    public void testIsChecked() {
-        System.out.println("isChecked");
-        int x = 0;
-        int y = 0;
-        Model instance = new Model();
-        boolean expResult = false;
-        boolean result = instance.isPushed(x, y);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testIsPushed() throws FieldIsPushedException {
+        model.createNew(20, 20, 5);
+
+        model.push(10, 11);
+
+        for (int i = 0; i < 20; ++i) {
+            for (int j = 0; j < 20; ++j) {
+                if (i == 10 && j == 11) {
+                    assertTrue(model.isPushed(i, j));
+                } else {
+                    assertFalse(model.isPushed(i, j));
+                }
+            }
+        }
     }
 
     /**
      * Test of isFine method, of class Model.
      */
     @Test
-    public void testIsFine() {
-        System.out.println("isFine");
-        Model instance = new Model();
-        boolean expResult = false;
-        boolean result = instance.isFine();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testIsFine() throws FieldIsPushedException {
+        model.createNew(20, 20, 5);
+        for (int i = 0; i < 20; ++i) {
+            for (int j = 0; j < 20; ++j) {
+                if (!mines.contains(new IntPair(i, j))) {
+                    model.push(i, j);
+                }
+                if (!(i == 19 && j == 19)) {
+                    assertFalse(model.isFine());
+                }
+            }
+        }
+        assertTrue(model.isFine());
     }
 
     /**
-     * Test of check method, of class Model.
+     * Test of push method, of class Model.
      */
     @Test
-    public void testCheck() throws FieldIsPushedException {
-        System.out.println("check");
-        int x = 0;
-        int y = 0;
-        Model instance = new Model();
-        instance.push(x, y);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testPush() throws FieldIsPushedException {
+        model.createNew(20, 20, 5);
+
+        model.push(10, 11);
+        assertTrue(model.isPushed(10, 11));
+        try {
+            model.push(10, 10);
+            assertTrue(false);
+        } catch (FieldIsPushedException e) {
+            assertTrue(true);
+        }
+        try {
+            model.push(10, 11);
+            assertTrue(false);
+        } catch (FieldIsPushedException e) {
+            assertTrue(true);
+        }
     }
 
     /**
@@ -114,14 +125,11 @@ public class ModelTest {
      */
     @Test
     public void testHint() {
-        System.out.println("hint");
-        Model instance = new Model();
-        IntPair expResult = null;
-        IntPair result;
-        result = instance.hint();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        model.createNew(20, 20, 5);
+
+        IntPair pair = model.hint();
+        assertFalse(model.isMine(pair.first, pair.second));
+        assertFalse(model.isPushed(pair.first, pair.second));
     }
 
 }

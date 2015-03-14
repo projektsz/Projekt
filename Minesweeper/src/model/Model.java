@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Random;
+
 /**
  *
  * @author kmate
@@ -8,15 +10,14 @@ public class Model implements IModel {
 
     private ITableGenerator tableGenerator;
     private Table table;
-    int countOfMines;
-    int countOfPushed;
+    private int countOfMines;
+    private int countOfPushed;
 
     /**
      * Construct a new object with 10x10 table, and 35 mines.
      */
     public Model() {
         this(new RandomTableGenarator());
-
     }
 
     /**
@@ -27,9 +28,6 @@ public class Model implements IModel {
      */
     Model(ITableGenerator tableGenerator) {
         this.tableGenerator = tableGenerator;
-        countOfMines = 25;
-        countOfPushed = 0;
-        table = tableGenerator.generateTable(10, 10, countOfMines);
     }
 
     /**
@@ -83,6 +81,14 @@ public class Model implements IModel {
      */
     @Override
     public IntPair hint() {
-        throw new UnsupportedOperationException("");
+        Random rnd = new Random();
+        int x = rnd.nextInt(table.getXSize());
+        int y = rnd.nextInt(table.getYSize());
+        while (isPushed(x, y) || isMine(x, y)) {
+            x = rnd.nextInt();
+            y = rnd.nextInt();
+        }
+
+        return new IntPair(x, y);
     }
 }
