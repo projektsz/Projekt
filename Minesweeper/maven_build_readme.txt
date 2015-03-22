@@ -1,17 +1,17 @@
-Hogyan fordítsuk a projektet Maven-nel?
+Hogyan fordÃ­tsuk a projektet Maven-nel?
 
-1. Telepítés
+1. TelepÃ­tÃ©s
 
-- Töltsd le és csomagold ki a Maven-t tetszõleges mappába: http://maven.apache.org/download.cgi
-- A kicsomagolt mappában található bin könyvtárat add hozzá a PATH-hez.
-- Hozz létre egy új környezeti változót JAVA_HOME néven. Értékének add meg a JDK elérési útját. (Itt most ne a bin mappáét)
-- Teszteléshez add ki az alábbi parancssori parancsot: mvn -v 
-	-Ha megjelenik a programról egy rövid információ akkor minden mûködik
+- TÃ¶ltsd le Ã©s csomagold ki a Maven-t tetszÅ‘leges mappÃ¡ba: http://maven.apache.org/download.cgi
+- A kicsomagolt mappÃ¡ban talÃ¡lhatÃ³ bin kÃ¶nyvtÃ¡rat add hozzÃ¡ a PATH-hez.
+- Hozz lÃ©tre egy Ãºj kÃ¶rnyezeti vÃ¡ltozÃ³t JAVA_HOME nÃ©ven. Ã‰rtÃ©kÃ©nek add meg a JDK elÃ©rÃ©si ÃºtjÃ¡t. (Itt most ne a bin mappÃ¡Ã©t)
+- TesztelÃ©shez add ki az alÃ¡bbi parancssori parancsot: mvn -v 
+	-Ha megjelenik a programrÃ³l egy rÃ¶vid informÃ¡ciÃ³ akkor minden mÅ±kÃ¶dik
 	
-2. Fordítás
+2. FordÃ­tÃ¡s
 
-- Nyisd meg a parancssor a Minesweeper mappában:
-	- Ha csak a class fájlokat szeretnéd lefordítani add ki az alábbi parancsot: mvn compile
-	- Ha csak a junit teszteket szeretnéd futtatni: mvn test
-	- Ha jar fájlt szeretnél generálni: mvn package
-- Sikeres fordítás után a fájlok a target mappában találhatóak
+- Nyisd meg a parancssor a Minesweeper mappÃ¡ban:
+	- Ha csak a class fÃ¡jlokat szeretnÃ©d lefordÃ­tani add ki az alÃ¡bbi parancsot: mvn compile
+	- Ha csak a junit teszteket szeretnÃ©d futtatni: mvn test
+	- Ha jar fÃ¡jlt szeretnÃ©l generÃ¡lni: mvn package
+- Sikeres fordÃ­tÃ¡s utÃ¡n a fÃ¡jlok a target mappÃ¡ban talÃ¡lhatÃ³ak
