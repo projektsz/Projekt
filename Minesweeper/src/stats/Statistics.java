@@ -76,7 +76,7 @@ public class Statistics {
      * @param time Az ido ami alatt teljesitette a jatekot a jatekos.
      */
     public void addWinner(String name, int gametype, int time) {
-
+        addWinner(new Winner(name, gametype, time));
     }
 
     /**
@@ -86,7 +86,17 @@ public class Statistics {
      * @param winner A gyoztes
      */
     public void addWinner(Winner winner) {
+        winners.add(winner);
 
+        out.print(winner.getName());
+        out.print(" ");
+        out.print(winner.getGametype());
+        out.print(" ");
+        out.print(winner.getTime());
+        out.print(" ");
+        out.print(winner.getDate().getTime());
+        out.println();
+        out.flush();
     }
 
     /**

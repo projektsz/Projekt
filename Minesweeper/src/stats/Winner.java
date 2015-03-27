@@ -55,4 +55,9 @@ public class Winner {
     public Date getDate() {
         return date;
     }
+
+    @Override
+    public String toString() {
+        return "Winner{" + "name=" + name + ", gametype=" + gametype + ", time=" + time + " mp, date=" + date.toString() + '}';
+    }
 }
