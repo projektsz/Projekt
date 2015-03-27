@@ -159,4 +159,12 @@ public class Statistics {
     public String getMostWinner() {
         return "";
     }
+
+    /**
+     *
+     * @return A gyoztesek listaja
+     */
+    public List<Winner> getWinners() {
+        return winners;
+    }
 }
