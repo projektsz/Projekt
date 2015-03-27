@@ -1,7 +1,15 @@
 package stats;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * A jatekkal kapcsolatos statisztikai adatok lekerdezesere szolgalo osztaly. Az
@@ -21,7 +29,12 @@ public class Statistics {
     /**
      * Az eddigi nyertesek listaja.
      */
-    private final List<Winner> winneres = new ArrayList<>();
+    private final List<Winner> winners = new ArrayList<>();
+
+    /**
+     * A PrintWriter amivel a statisztikai adatokat irjuk fajlba.
+     */
+    private PrintWriter out;
 
     /**
      * Visszaadja az egyetlen Statistics objektumot
@@ -39,6 +52,19 @@ public class Statistics {
      */
     private Statistics() {
 
+        try {
+            Scanner sc = new Scanner(new File("minesweeper.stats"));
+            while (sc.hasNext()) {
+                winners.add(new Winner(sc.next(), sc.nextInt(), sc.nextInt(), new Date(sc.nextLong())));
+            }
+            sc.close();
+        } catch (FileNotFoundException ex) {
+        }
+
+        try {
+            out = new PrintWriter(new BufferedWriter(new FileWriter("minesweeper.stats", true)));
+        } catch (IOException ex1) {
+        }
     }
 
     /**

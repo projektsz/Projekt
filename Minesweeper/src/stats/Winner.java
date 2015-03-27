@@ -30,10 +30,14 @@ public class Winner {
     private final Date date;
 
     public Winner(String name, int gametype, int time) {
+        this(name, gametype, time, new Date());
+    }
+
+    public Winner(String name, int gametype, int time, Date date) {
         this.name = name;
         this.gametype = gametype;
         this.time = time;
-        this.date = new Date();
+        this.date = date;
     }
 
     public String getName() {
