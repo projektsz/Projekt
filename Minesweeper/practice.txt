@@ -1,0 +1,7 @@
+Szia András!
+
+Tessék itt egy fájl amin ki tudod próbálni a github-ot.
+Gyakorlásként próbáld meg letörölni, aztán commitálni, hogy letörölted. 
+Ha eltűnik a honlapon és megjelenik a commitod, akkor mindent jól csináltál.
+
+Üdv, Gábor
