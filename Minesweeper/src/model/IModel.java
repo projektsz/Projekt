@@ -45,9 +45,11 @@ public interface IModel {
      *
      * @param x table's horizontal coordinate
      * @param y table's vertical coordinate
-     * @throws FieldIsPushedException if the (x,y)field is mine, or checked
+     * @throws FieldIsPushedException if the (x,y) field is checked
+     * @throws FieldIsMineException if the (x,y) field is mine
+     * @return number of the mines which is in the neighbour if this element
      */
-    public void push(int x, int y) throws FieldIsPushedException;
+    public int push(int x, int y) throws FieldIsPushedException, FieldIsMineException;
 
     /**
      * Give a hint in the format: (x,y)
