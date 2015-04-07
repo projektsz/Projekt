@@ -81,7 +81,7 @@ public class Model implements IModel {
         try {
             for (int rowMod = -1; rowMod <= 1; ++rowMod) {
                 for (int colMod = -1; colMod <= 1; ++colMod) {
-                    if (table.getField(colMod + y, rowMod + x) == ITableGenerator.mine) {
+                    if (table.getField(colMod + x, rowMod + y) == ITableGenerator.mine) {
                         ++mines;
                     }
                 }
