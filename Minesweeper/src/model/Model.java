@@ -26,7 +26,7 @@ public class Model implements IModel {
      * @param tableGenerator ITableGenerator object. The model will use this in
      * createNew method
      */
-    Model(ITableGenerator tableGenerator) {
+   public Model(ITableGenerator tableGenerator) {
         this.tableGenerator = tableGenerator;
     }
 
@@ -55,7 +55,7 @@ public class Model implements IModel {
     public boolean isPushed(int x, int y) {
         return table.getField(x, y) == ITableGenerator.marks;
     }
-
+    
     /**
      * See {@link IModel#isFine()}
      */

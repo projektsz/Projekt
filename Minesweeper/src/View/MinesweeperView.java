@@ -20,6 +20,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.SwingConstants;
+import model.Model;
 
 /**
  *
@@ -27,9 +28,11 @@ import javax.swing.SwingConstants;
  */
 public class MinesweeperView extends JFrame{
     
-    // Logic logic;
-    public MinesweeperView( /*Logic logic*/) {
-        //this.logic = logic;
+    private JPanel gamePanel = new JPanel(new BorderLayout());
+    
+    Model logic;
+    public MinesweeperView( Model logic) {
+        this.logic = logic;
         setupWindow();
         setupMenu();
         felsoSor();
@@ -45,7 +48,7 @@ public class MinesweeperView extends JFrame{
 
     void felsoSor() {
         JLabel jl = new JLabel("plusz dolgok", SwingConstants.CENTER);
-        add(jl, BorderLayout.NORTH);
+        gamePanel.add(jl, BorderLayout.NORTH);
     }
 
     void setupWindow() {
@@ -53,7 +56,7 @@ public class MinesweeperView extends JFrame{
         setPreferredSize(new Dimension(400, 400));
         pack();
         setTitle("Mine");
-        setLayout(new BorderLayout());
+        add(gamePanel);
     }
 
     void initGameField(int size) {
@@ -65,7 +68,7 @@ public class MinesweeperView extends JFrame{
                 jp.add(jb);
             }
         }
-        add(jp, BorderLayout.CENTER);
+        gamePanel.add(jp, BorderLayout.CENTER);
     }
 
     private void setupMenu() {
