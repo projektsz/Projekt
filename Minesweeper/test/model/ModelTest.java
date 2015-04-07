@@ -62,7 +62,7 @@ public class ModelTest {
      * Test of isPushed method, of class Model.
      */
     @Test
-    public void testIsPushed() throws FieldIsPushedException {
+    public void testIsPushed() throws FieldIsPushedException, FieldIsMineException {
         model.createNew(20, 20, 5);
 
         model.push(10, 11);
@@ -82,7 +82,7 @@ public class ModelTest {
      * Test of isFine method, of class Model.
      */
     @Test
-    public void testIsFine() throws FieldIsPushedException {
+    public void testIsFine() throws FieldIsPushedException, FieldIsMineException {
         model.createNew(20, 20, 5);
         for (int i = 0; i < 20; ++i) {
             for (int j = 0; j < 20; ++j) {
@@ -101,15 +101,16 @@ public class ModelTest {
      * Test of push method, of class Model.
      */
     @Test
-    public void testPush() throws FieldIsPushedException {
+    public void testPush() throws FieldIsPushedException, FieldIsMineException {
         model.createNew(20, 20, 5);
-
         model.push(10, 11);
-        assertTrue(model.isPushed(10, 11));
+        assertTrue(model.isPushed(10, 11));        
+        assertEquals(model.push(10, 9), 1);
+        
         try {
             model.push(10, 10);
             assertTrue(false);
-        } catch (FieldIsPushedException e) {
+        } catch (FieldIsMineException e) {
             assertTrue(true);
         }
         try {
