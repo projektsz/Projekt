@@ -68,12 +68,31 @@ public class Model implements IModel {
      * See {@link IModel#push(int x, int y)}
      */
     @Override
-    public void push(int x, int y) throws FieldIsPushedException {
-        if (isMine(x, y) || isPushed(x, y)) {
+    public int push(int x, int y) throws FieldIsPushedException, FieldIsMineException {
+        if (isPushed(x, y)) {
             throw new FieldIsPushedException("");
         }
+
+        if (isMine(x, y)) {
+            throw new FieldIsMineException("");
+        }
+
+        int mines = 0;
+        try {
+            for (int rowMod = -1; rowMod <= 1; ++rowMod) {
+                for (int colMod = -1; colMod <= 1; ++colMod) {
+                    if (table.getField(colMod + y, rowMod + x) == ITableGenerator.mine) {
+                        ++mines;
+                    }
+                }
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            //SKIP
+        }
+
         table.setField(x, y, ITableGenerator.marks);
         ++countOfPushed;
+        return mines;
     }
 
     /**
