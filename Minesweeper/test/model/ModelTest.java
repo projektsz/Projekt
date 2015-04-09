@@ -7,10 +7,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -106,7 +103,6 @@ public class ModelTest {
 
         model.push(10, 11);
         assertTrue(model.isPushed(10, 11));
-        assertEquals(model.push(10, 9), 1);
         try {
             model.push(10, 10);
             assertTrue(false);

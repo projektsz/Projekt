@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -68,30 +71,34 @@ public class Model implements IModel {
      * See {@link IModel#push(int x, int y)}
      */
     @Override
-    public int push(int x, int y) throws FieldIsPushedException, FieldIsMineException {
+    public void push(int x, int y) throws FieldIsPushedException, FieldIsMineException {
         if (isPushed(x, y)) {
             throw new FieldIsPushedException("");
         }
-
         if (isMine(x, y)) {
             throw new FieldIsMineException("");
         }
 
-        int mines = 0;
-        try {
-            for (int rowMod = -1; rowMod <= 1; ++rowMod) {
-                for (int colMod = -1; colMod <= 1; ++colMod) {
-                    if (table.getField(colMod + x, rowMod + y) == ITableGenerator.mine) {
-                        ++mines;
-                    }
-                }
-            }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            //SKIP
-        }
-
         table.setField(x, y, ITableGenerator.marks);
         ++countOfPushed;
+    }
+
+    /**
+     * See {@link IModel#numberOfNearlyMines()}
+     */
+    @Override
+    public int numberOfNearlyMines(int x, int y) {
+        int mines = 0;
+        for (int rowMod = -1; rowMod <= 1; ++rowMod) {
+            for (int colMod = -1; colMod <= 1; ++colMod) {
+                try {
+                    if (isMine(x + colMod, y + rowMod)) {
+                        ++mines;
+                    }
+                } catch (ArrayIndexOutOfBoundsException e) {
+                }
+            }
+        }
         return mines;
     }
 
@@ -110,4 +117,29 @@ public class Model implements IModel {
 
         return new IntPair(x, y);
     }
+
+    /**
+     * See {@link IModel#findEmptyNeighbors()}
+     */
+    @Override
+    public Collection<IntPair> findEmptyNeighbors(int x, int y) {
+        List<IntPair> coords = new ArrayList<>();
+
+        // @todo: create find algorithm
+        throw new UnsupportedOperationException("unsupported findEmptyNeighbors(int x, int y)");
+
+//        try {
+//            pushAll(coords);
+//        } catch (FieldIsPushedException | FieldIsMineException ex) {
+//        }
+//        return coords;
+    }
+
+    private void pushAll(Collection<IntPair> coords)
+            throws FieldIsPushedException, FieldIsMineException {
+        for (IntPair coord : coords) {
+            push(coord.first, coord.second);
+        }
+    }
+
 }
