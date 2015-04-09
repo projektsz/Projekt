@@ -10,7 +10,7 @@ import java.util.TreeSet;
  *
  * @author kmate
  */
-public class SpecialTableGenerator implements ITableGenerator {
+class SpecialTableGenerator implements ITableGenerator {
 
     private final List<IntPair> mines;
 
