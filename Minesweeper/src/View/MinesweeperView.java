@@ -10,8 +10,6 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
@@ -23,20 +21,18 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.SwingConstants;
-import model.FieldIsMineException;
-import model.FieldIsPushedException;
-import model.Model;
+import javax.swing.Timer;
 import model.IModel;
 
-/**
- *
- * @author Balint
- */
 public class MinesweeperView extends JFrame {
 
     private JPanel gamePanel = new JPanel(new BorderLayout());
     private int size = 0;
-    IModel logic;
+    private IModel logic;
+    private JLabel felsoSor;
+    private int time;
+    private String name;
+    private Timer timer = new Timer(1000, new MyTimerActionListener());
 
     public MinesweeperView(IModel logic) {
         this.logic = logic;
@@ -45,34 +41,60 @@ public class MinesweeperView extends JFrame {
         felsoSor();
         size = 10;
         initGameField(size);
+        timer.start();
+    }
+
+    class MyTimerActionListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+            time++;
+            felsoSor.setText(getTimeFromInt(time));
+        }
+    }
+
+    public String getTimeFromInt(int time) {
+        String t;
+        int minutes = time / 60;
+        int secunds = time - (minutes * 60);
+        if (secunds < 10) {
+            t = "" + minutes + ":0" + secunds;
+        } else {
+            t = "" + minutes + ":" + secunds;
+        }
+        return t;
     }
 
     private final ActionListener gameButtonListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            int num =  logic.numberOfNearlyMines(((GameButton) e.getSource()).getXB(), ((GameButton) e.getSource()).getYB());
-            if ( num == -2 ){
-                ((GameButton) e.getSource()).setText( "m" );
-            }else{
-                ((GameButton) e.getSource()).setText( Integer.toString(num) );
+            if (logic.isMine(((GameButton) e.getSource()).getXB(), ((GameButton) e.getSource()).getYB())) {
+                ((GameButton) e.getSource()).setText("m");
+            } else {
+                int num = logic.numberOfNearlyMines(((GameButton) e.getSource()).getXB(), ((GameButton) e.getSource()).getYB());
+                ((GameButton) e.getSource()).setText(Integer.toString(num));
             }
-            
-            if ( logic.isFine() ){
+
+            if (logic.isFine()) {
                 JOptionPane.showMessageDialog(null, "NYERTÉÉ");
                 gamePanel.removeAll();
                 gamePanel.revalidate();
                 gamePanel.repaint();
-                felsoSor();
-                initGameField(size);
-                logic.createNew(size, size, 30);
             }
-            
         }
     };
 
+    public void startNewGame() {
+        felsoSor();
+        initGameField(size);
+        logic.createNew(size, size, 30);
+        felsoSor.setText("0:00");
+        time = 0;
+        timer.restart();
+    }
+
     void felsoSor() {
-        JLabel jl = new JLabel("plusz dolgok", SwingConstants.CENTER);
-        gamePanel.add(jl, BorderLayout.NORTH);
+        felsoSor = new JLabel("0:00", SwingConstants.CENTER);
+        gamePanel.add(felsoSor, BorderLayout.NORTH);
     }
 
     void setupWindow() {
