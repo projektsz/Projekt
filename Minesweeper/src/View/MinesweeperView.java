@@ -10,6 +10,8 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
@@ -22,6 +24,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
+import model.FieldIsMineException;
+import model.FieldIsPushedException;
 import model.IModel;
 
 public class MinesweeperView extends JFrame {
@@ -70,6 +74,13 @@ public class MinesweeperView extends JFrame {
             if (logic.isMine(((GameButton) e.getSource()).getXB(), ((GameButton) e.getSource()).getYB())) {
                 ((GameButton) e.getSource()).setText("m");
             } else {
+                try {
+                    logic.push(((GameButton) e.getSource()).getXB(), ((GameButton) e.getSource()).getYB());
+                } catch (FieldIsPushedException ex) {
+                    //TODO
+                } catch (FieldIsMineException ex) {
+                     //TODO
+                }
                 int num = logic.numberOfNearlyMines(((GameButton) e.getSource()).getXB(), ((GameButton) e.getSource()).getYB());
                 ((GameButton) e.getSource()).setText(Integer.toString(num));
             }
