@@ -10,6 +10,8 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
@@ -17,9 +19,12 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.SwingConstants;
+import model.FieldIsMineException;
+import model.FieldIsPushedException;
 import model.Model;
 
 /**
@@ -29,20 +34,37 @@ import model.Model;
 public class MinesweeperView extends JFrame{
     
     private JPanel gamePanel = new JPanel(new BorderLayout());
-    
+    private int size = 0;
     Model logic;
     public MinesweeperView( Model logic) {
         this.logic = logic;
         setupWindow();
         setupMenu();
         felsoSor();
-        initGameField(10);
+        size = 10;
+        initGameField(size);
     }
 
     private final ActionListener gameButtonListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            System.out.println(((GameButton) e.getSource()).getXB() + " " + ((GameButton) e.getSource()).getYB());
+            try {
+                int asd =  logic.push(((GameButton) e.getSource()).getXB(), ((GameButton) e.getSource()).getYB());
+                ((GameButton) e.getSource()).setText( Integer.toString(asd) );
+            } catch (FieldIsPushedException ex) {
+                
+            } catch (FieldIsMineException ex) {
+                ((GameButton) e.getSource()).setText("m");
+            }
+            if ( logic.isFine() ){
+                JOptionPane.showMessageDialog(null, "NYERTÉÉ");
+                gamePanel.removeAll();
+                gamePanel.revalidate();
+                gamePanel.repaint();
+                felsoSor();
+                initGameField(size);
+                logic.createNew(size, size, 30);
+            }
         }
     };
 
@@ -53,14 +75,14 @@ public class MinesweeperView extends JFrame{
 
     void setupWindow() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(400, 400));
+        setPreferredSize(new Dimension(500, 500));
         pack();
         setTitle("Mine");
         add(gamePanel);
     }
 
     void initGameField(int size) {
-        JPanel jp = new JPanel(new GridLayout(10, 10));
+        JPanel jp = new JPanel(new GridLayout(size, size));
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 GameButton jb = new GameButton(i, j);
