@@ -26,17 +26,19 @@ import javax.swing.SwingConstants;
 import model.FieldIsMineException;
 import model.FieldIsPushedException;
 import model.Model;
+import model.IModel;
 
 /**
  *
  * @author Balint
  */
-public class MinesweeperView extends JFrame{
-    
+public class MinesweeperView extends JFrame {
+
     private JPanel gamePanel = new JPanel(new BorderLayout());
     private int size = 0;
-    Model logic;
-    public MinesweeperView( Model logic) {
+    IModel logic;
+
+    public MinesweeperView(IModel logic) {
         this.logic = logic;
         setupWindow();
         setupMenu();
@@ -48,14 +50,13 @@ public class MinesweeperView extends JFrame{
     private final ActionListener gameButtonListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            try {
-                int asd =  logic.push(((GameButton) e.getSource()).getXB(), ((GameButton) e.getSource()).getYB());
-                ((GameButton) e.getSource()).setText( Integer.toString(asd) );
-            } catch (FieldIsPushedException ex) {
-                
-            } catch (FieldIsMineException ex) {
-                ((GameButton) e.getSource()).setText("m");
+            int num =  logic.numberOfNearlyMines(((GameButton) e.getSource()).getXB(), ((GameButton) e.getSource()).getYB());
+            if ( num == -2 ){
+                ((GameButton) e.getSource()).setText( "m" );
+            }else{
+                ((GameButton) e.getSource()).setText( Integer.toString(num) );
             }
+            
             if ( logic.isFine() ){
                 JOptionPane.showMessageDialog(null, "NYERTÉÉ");
                 gamePanel.removeAll();
@@ -65,6 +66,7 @@ public class MinesweeperView extends JFrame{
                 initGameField(size);
                 logic.createNew(size, size, 30);
             }
+            
         }
     };
 
@@ -98,12 +100,12 @@ public class MinesweeperView extends JFrame{
         JMenu menu1, statMenu, submenu;
         JMenu rekorderMenu, averageTimeMenu, winnerCountMenu, mostWinnerMenu;
         JMenuItem menuItem;
-        
+
         JMenuItem rekorderItem1, rekorderItem2, rekorderItem3;
         JMenuItem averageTimeItem;
         JMenuItem winnerCountItem1, winnerCountItem2, winnerCountItem3, winnerCountItem4;
         JMenuItem mostWinnerItem1, mostWinnerItem2, mostWinnerItem3, mostWinnerItem4;
-        
+
         JRadioButtonMenuItem rbMenuItem;
         JCheckBoxMenuItem cbMenuItem;
 //        Statistics.getInstance()
@@ -113,7 +115,7 @@ public class MinesweeperView extends JFrame{
         menuBar.add(menu1);
 
         //a submenu
-       // menu.addSeparator();
+        // menu.addSeparator();
         submenu = new JMenu("Új játék");
 
         menuItem = new JMenuItem("5×5");
@@ -122,7 +124,7 @@ public class MinesweeperView extends JFrame{
         menuItem = new JMenuItem("10×10");
         submenu.add(menuItem);
         menu1.add(submenu);
-        
+
         menuItem = new JMenuItem("15×15");
         submenu.add(menuItem);
         menu1.add(submenu);
@@ -133,44 +135,44 @@ public class MinesweeperView extends JFrame{
         //rekorder submenu
         rekorderMenu = new JMenu("Rekorderek");
         statMenu.add(rekorderMenu);
-        
+
         rekorderItem1 = new JMenuItem("Rekorder (5x5)");
         rekorderItem2 = new JMenuItem("Rekorder (10x10)");
         rekorderItem3 = new JMenuItem("Rekorder (15x15)");
-        
+
         rekorderMenu.add(rekorderItem1);
         rekorderMenu.add(rekorderItem2);
-        rekorderMenu.add(rekorderItem3);        
+        rekorderMenu.add(rekorderItem3);
         //average time submenu
         averageTimeMenu = new JMenu("Átlagos idők");
         statMenu.add(averageTimeMenu);
-        
+
         averageTimeItem = new JMenuItem("Átlagos idő");
         averageTimeMenu.add(averageTimeItem);
-        
+
         //winner count submenu
         winnerCountMenu = new JMenu("Nyertesek száma");
         statMenu.add(winnerCountMenu);
-        
+
         winnerCountItem1 = new JMenuItem("Győztesek száma (5x5)");
         winnerCountItem2 = new JMenuItem("Győztesek száma (10x10)");
         winnerCountItem3 = new JMenuItem("Győztesek száma (15x15)");
         winnerCountItem4 = new JMenuItem("Győztesek száma (összes típuson)");
-        
+
         winnerCountMenu.add(winnerCountItem1);
         winnerCountMenu.add(winnerCountItem2);
         winnerCountMenu.add(winnerCountItem3);
         winnerCountMenu.add(winnerCountItem4);
-        
+
         //most winner submenu
         mostWinnerMenu = new JMenu("Legtöbbet nyerő játékosok");
         statMenu.add(mostWinnerMenu);
-        
+
         mostWinnerItem1 = new JMenuItem("Legtöbbet nyerő (5x5)");
         mostWinnerItem2 = new JMenuItem("Legtöbbet nyerő (10x10)");
         mostWinnerItem3 = new JMenuItem("Legtöbbet nyerő (15x15)");
         mostWinnerItem4 = new JMenuItem("Legtöbbet nyerő (összes típuson)");
-        
+
         mostWinnerMenu.add(mostWinnerItem1);
         mostWinnerMenu.add(mostWinnerItem2);
         mostWinnerMenu.add(mostWinnerItem3);
