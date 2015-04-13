@@ -76,17 +76,46 @@ public class MinesweeperView extends JFrame {
 
             if (logic.isFine()) {
                 JOptionPane.showMessageDialog(null, "NYERTÉÉ");
-                gamePanel.removeAll();
-                gamePanel.revalidate();
-                gamePanel.repaint();
+                startNewGame(size);
             }
         }
     };
 
-    public void startNewGame() {
+    private final ActionListener menuListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            switch (((JMenuItem) e.getSource()).getText()) {
+                case "5×5":
+                    System.out.println("5");
+                    startNewGame(5);
+                    break;
+                case "10×10":
+                    System.out.println("10");
+                    startNewGame(10);
+                    break;
+                case "15×15":
+                    System.out.println("15");
+                    startNewGame(15);
+                    break;
+            }
+        }
+    };
+    
+    private final ActionListener newPlayer = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            
+        }
+    };
+    
+
+    public void startNewGame(int size) {
+        gamePanel.removeAll();
+        gamePanel.revalidate();
+        gamePanel.repaint();
         felsoSor();
         initGameField(size);
-        logic.createNew(size, size, 30);
+        logic.createNew(size, size, 10);
         felsoSor.setText("0:00");
         time = 0;
         timer.restart();
@@ -133,22 +162,29 @@ public class MinesweeperView extends JFrame {
 //        Statistics.getInstance()
 
         //Build the first menu.
-        menu1 = new JMenu("A Menu");
+        menu1 = new JMenu("Menu");
         menuBar.add(menu1);
 
+        menuItem = new JMenuItem("Új játékos");
+        menu1.add(menuItem);
+        menuItem.addActionListener(newPlayer);
+        
         //a submenu
         // menu.addSeparator();
         submenu = new JMenu("Új játék");
 
         menuItem = new JMenuItem("5×5");
         submenu.add(menuItem);
+        menuItem.addActionListener(menuListener);
 
         menuItem = new JMenuItem("10×10");
         submenu.add(menuItem);
+        menuItem.addActionListener(menuListener);
         menu1.add(submenu);
 
         menuItem = new JMenuItem("15×15");
         submenu.add(menuItem);
+        menuItem.addActionListener(menuListener);
         menu1.add(submenu);
 
         //Build second menu in the menu bar.
