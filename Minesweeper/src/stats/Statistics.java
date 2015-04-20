@@ -117,7 +117,17 @@ public class Statistics {
      * @return Atlag ido
      */
     public float getAverageTime(int type) {
-        return 0;
+        float ido = 0;
+        float atlagido = 0;
+
+        for (int i = 0; i < winners.size(); i++) {
+            if (type == winners.get(i).getGametype()) {
+                ido++;
+                atlagido += winners.get(i).getTime();
+            }
+        }
+        atlagido = atlagido / ido;
+        return atlagido;
     }
 
     /**
@@ -127,7 +137,17 @@ public class Statistics {
      * @return Nyertesek szama
      */
     public int getWinnerCount(int type) {
-        return 0;
+
+        int nyertesekszama = 0;
+
+        for (int i = 0; i < winners.size(); i++) {
+
+            if (type == winners.get(i).getGametype()) {
+                nyertesekszama++;
+            }
+
+        }
+        return nyertesekszama;
     }
 
     /**
@@ -136,7 +156,7 @@ public class Statistics {
      * @return Nyertesek szama
      */
     public int getWinnerCount() {
-        return 0;
+        return winners.size();
     }
 
     /**
