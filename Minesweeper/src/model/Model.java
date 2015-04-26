@@ -1,9 +1,9 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Random;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  *
@@ -123,16 +123,27 @@ public class Model implements IModel {
      */
     @Override
     public Collection<IntPair> findEmptyNeighbors(int x, int y) {
-        List<IntPair> coords = new ArrayList<>();
+        Set<IntPair> coords = new TreeSet<>();
 
-        // @todo: create find algorithm
-        throw new UnsupportedOperationException("unsupported findEmptyNeighbors(int x, int y)");
+        for (int rowInd = x - 1; rowInd <= x + 1; ++rowInd) {
+            for (int colInd = y - 1; colInd <= y + 1; ++colInd) {
+                try {
+                    if (//!(x == rowInd && y == colInd)
+                            //  &&
+                            numberOfNearlyMines(rowInd, colInd) == 0) {
 
-//        try {
-//            pushAll(coords);
-//        } catch (FieldIsPushedException | FieldIsMineException ex) {
-//        }
-//        return coords;
+                        push(rowInd, colInd);
+
+                        coords.add(new IntPair(rowInd, colInd));
+                        coords.addAll(findEmptyNeighbors(rowInd, colInd));
+                    }
+                } catch (ArrayIndexOutOfBoundsException |
+                        FieldIsMineException | FieldIsPushedException e) {
+                    // if (x,y) is the border of table or exceptions of push()
+                }
+            }
+        }
+        return coords;
     }
 
     private void pushAll(Collection<IntPair> coords)
