@@ -106,7 +106,23 @@ public class Statistics {
      * @return A gyoztes
      */
     public Winner getRecorder(int type) {
-        return new Winner("", 0, 0);
+        Winner gyoztes = null;
+        int minido = 0;
+        boolean vane = false;
+
+        for (int i = 0; i < winners.size(); i++) {
+            if (type == winners.get(i).getGametype()) {
+                if (vane == false) {
+                    vane = true;
+                    minido = winners.get(i).getTime();
+                    gyoztes = winners.get(i);
+                } else if (winners.get(i).getTime() < minido) {
+                    minido = winners.get(i).getTime();
+                    gyoztes = winners.get(i);
+                }
+            }
+        }
+        return gyoztes;
     }
 
     /**
