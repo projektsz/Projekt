@@ -6,7 +6,11 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -129,4 +133,45 @@ public class ModelTest {
         assertFalse(model.isPushed(pair.first, pair.second));
     }
 
+    /**
+     *
+     */
+    @Test
+    public void testNumberOfNearlyMines() {
+        model.createNew(20, 20, 5);
+
+        assertEquals(model.numberOfNearlyMines(6, 6), 2);
+        assertEquals(model.numberOfNearlyMines(6, 7), 1);
+        assertEquals(model.numberOfNearlyMines(0, 0), 0);
+    }
+
+    /**
+     * Test of findEmptyNeighbors method, of class Model
+     */
+    @Test
+    public void testFindEmptyNeighbors() {
+        model.createNew(20, 20, 5);
+        Collection<IntPair> found = model.findEmptyNeighbors(3, 11);
+
+        Set<IntPair> notPushed = new HashSet<>();
+        for (IntPair mine : mines) {
+            for (int rowInd = mine.first - 1; rowInd <= mine.first + 1; ++rowInd) {
+                for (int colInd = mine.second - 1; colInd <= mine.second + 1; ++colInd) {
+                    assertFalse(model.isPushed(rowInd, colInd));
+                    notPushed.add(new IntPair(rowInd, colInd));
+                }
+            }
+        }
+        Set<IntPair> pushed = new TreeSet<>();
+        for (int i = 0; i < 20; ++i) {
+            for (int j = 0; j < 20; ++j) {
+                IntPair act = new IntPair(i, j);
+                if (!notPushed.contains(act)) {
+                    assertTrue(model.isPushed(i, j));
+                    pushed.add(act);
+                }
+            }
+        }
+        assertEquals(pushed, found);
+    }
 }
