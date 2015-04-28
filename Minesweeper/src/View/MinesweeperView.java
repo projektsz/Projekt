@@ -117,14 +117,17 @@ public class MinesweeperView extends JFrame {
                 switch (((JMenuItem) e.getSource()).getText()) {
                     case "5×5":
                         System.out.println("5");
+                        size = 5;
                         startNewGame(5);
                         break;
                     case "10×10":
                         System.out.println("10");
+                        size = 10;
                         startNewGame(10);
                         break;
                     case "15×15":
                         System.out.println("15");
+                        size = 15;
                         startNewGame(15);
                         break;
                 }
@@ -140,7 +143,7 @@ public class MinesweeperView extends JFrame {
         gamePanel.repaint();
         felsoSor();
         initGameField(size);
-        logic.createNew(size, size, 10);
+        logic.createNew(size);
         felsoSor.setText("0:00");
         time = 0;
         timer.restart();
@@ -207,7 +210,7 @@ public class MinesweeperView extends JFrame {
                             size = 15;
                             break;
                     }
-                    logic.createNew(size, size, 10);
+                    logic.createNew(size);
                     name = jtf.getText();
                     startNewGame(size);
                 } else {
