@@ -6,12 +6,15 @@
 package View;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
@@ -22,33 +25,33 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
+import javax.swing.border.EmptyBorder;
 import model.FieldIsMineException;
 import model.FieldIsPushedException;
 import model.IModel;
+import model.Model;
+import stats.Statistics;
 
 public class MinesweeperView extends JFrame {
 
     private JPanel gamePanel = new JPanel(new BorderLayout());
     private int size = 0;
-    private IModel logic;
+    private IModel logic = new Model();
     private JLabel felsoSor;
     private int time;
     private String name;
-    private Timer timer = new Timer(1000, new MyTimerActionListener());
+    private Timer timer = new Timer(1000, new timerActionListener());
 
-    public MinesweeperView(IModel logic) {
-        this.logic = logic;
+    public MinesweeperView() {
         setupWindow();
         setupMenu();
-        felsoSor();
-        size = 10;
-        initGameField(size);
-        timer.start();
+        createStartView();
     }
 
-    class MyTimerActionListener implements ActionListener {
+    class timerActionListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
             time++;
@@ -79,13 +82,15 @@ public class MinesweeperView extends JFrame {
                 } catch (FieldIsPushedException ex) {
                     //TODO
                 } catch (FieldIsMineException ex) {
-                     //TODO
+                    //TODO
                 }
                 int num = logic.numberOfNearlyMines(((GameButton) e.getSource()).getXB(), ((GameButton) e.getSource()).getYB());
                 ((GameButton) e.getSource()).setText(Integer.toString(num));
             }
 
             if (logic.isFine()) {
+                timer.stop();
+                Statistics.getInstance().addWinner(name, size, time);
                 JOptionPane.showMessageDialog(null, "NYERTÉÉ");
                 startNewGame(size);
             }
@@ -111,14 +116,13 @@ public class MinesweeperView extends JFrame {
             }
         }
     };
-    
+
     private final ActionListener newPlayer = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            
+
         }
     };
-    
 
     public void startNewGame(int size) {
         gamePanel.removeAll();
@@ -157,6 +161,44 @@ public class MinesweeperView extends JFrame {
         gamePanel.add(jp, BorderLayout.CENTER);
     }
 
+    private void createStartView() {
+        gamePanel.removeAll();
+        gamePanel.revalidate();
+        gamePanel.repaint();
+        JPanel jp = new JPanel(new GridLayout(8,1));
+        jp.setBorder(new EmptyBorder(20, 100, 50, 100) );
+        gamePanel.add(jp, BorderLayout.CENTER);
+        
+        JTextField jtf = new JTextField();
+        JTextField jtf2 = new JTextField();
+        JTextField jtf3 = new JTextField();
+        JButton jb= new JButton("START");
+        
+        jtf.setBorder(BorderFactory.createLineBorder(Color.decode("#2C6791")));
+        
+        
+        jb.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                size = Integer.parseInt(jtf2.getText());
+                logic.createNew(size, size, Integer.parseInt(jtf3.getText()));
+                name = jtf.getText();
+                startNewGame(size);
+                //felsoSor(); 
+                //initGameField(size);
+               //timer.start();
+            }
+        });
+        jp.add(new JLabel("Nev:"));
+        jp.add(jtf);
+        jp.add(new JLabel("Méret:"));
+        jp.add(jtf2);
+        jp.add(new JLabel("Aknák száma:"));
+        jp.add(jtf3);
+        jp.add(new JLabel());
+        jp.add(jb);
+    }
+
     private void setupMenu() {
         JMenuBar menuBar = new JMenuBar();
         JMenu menu1, statMenu, submenu;
@@ -179,7 +221,7 @@ public class MinesweeperView extends JFrame {
         menuItem = new JMenuItem("Új játékos");
         menu1.add(menuItem);
         menuItem.addActionListener(newPlayer);
-        
+
         //a submenu
         // menu.addSeparator();
         submenu = new JMenu("Új játék");
