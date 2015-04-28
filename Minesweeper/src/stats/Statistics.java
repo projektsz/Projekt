@@ -51,16 +51,46 @@ public class Statistics {
      * fajlt a statisztikak tarolasara.
      */
     private Statistics() {
-
         try {
-            Scanner sc = new Scanner(new File("minesweeper.stats"));
-            while (sc.hasNext()) {
-                winners.add(new Winner(sc.next(), sc.nextInt(), sc.nextInt(), new Date(sc.nextLong())));
+            if (isStatfileExists()) {
+                Scanner sc = new Scanner(new File("minesweeper.stats"));
+                while (sc.hasNext()) {
+                    winners.add(new Winner(sc.next(), sc.nextInt(), sc.nextInt(), new Date(sc.nextLong())));
+                }
+                sc.close();
             }
-            sc.close();
         } catch (FileNotFoundException ex) {
         }
+        createStatFile();
+    }
 
+    /**
+     * Ellenorzi, hogy letezik-e a statisztika fajl.
+     *
+     * @return Letezik-e a fajl
+     */
+    public boolean isStatfileExists() {
+        File f = new File("minesweeper.stats");
+        return (f.exists() && !f.isDirectory());
+    }
+
+    /**
+     * Torli a statisztika fajlt.
+     */
+    public void deleteStatFile() {
+        winners.clear();
+        if (out != null) {
+            out.close();
+        }
+        File file = new File("minesweeper.stats");
+        file.delete();
+    }
+
+    /**
+     * Letrehozza a statisztika fajlt vagy ha mar letezik akkor megnyitja
+     * irasra.
+     */
+    public void createStatFile() {
         try {
             out = new PrintWriter(new BufferedWriter(new FileWriter("minesweeper.stats", true)));
         } catch (IOException ex1) {
@@ -86,6 +116,9 @@ public class Statistics {
      * @param winner A gyoztes
      */
     public void addWinner(Winner winner) {
+        if (!isStatfileExists()) {
+            createStatFile();
+        }
         winners.add(winner);
 
         out.print(winner.getName());
