@@ -9,8 +9,12 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
@@ -33,6 +37,7 @@ import javax.swing.border.EmptyBorder;
 import model.FieldIsMineException;
 import model.FieldIsPushedException;
 import model.IModel;
+import model.IntPair;
 import model.Model;
 import stats.Statistics;
 
@@ -45,6 +50,7 @@ public class MinesweeperView extends JFrame {
     private int time;
     private String name = "";
     private Timer timer = new Timer(1000, new timerActionListener());
+    private JButton[][] gameButtons;
 
     public MinesweeperView() {
         setupWindow();
@@ -79,10 +85,21 @@ public class MinesweeperView extends JFrame {
                 logic.push(((GameButton) e.getSource()).getXB(), ((GameButton) e.getSource()).getYB());
                 int num = logic.numberOfNearlyMines(((GameButton) e.getSource()).getXB(), ((GameButton) e.getSource()).getYB());
                 ((GameButton) e.getSource()).setText(Integer.toString(num));
+                if (num == 0) {
+                    Collection<IntPair> arr = logic.findEmptyNeighbors(((GameButton) e.getSource()).getXB(), ((GameButton) e.getSource()).getYB());
+                    for (IntPair x : arr) {
+                        gameButtons[x.first][x.second].setText(Integer.toString(logic.numberOfNearlyMines(x.first, x.second)));
+                    }
+                }
+
             } catch (FieldIsPushedException ex) {
                 //TODO
             } catch (FieldIsMineException ex) {
-                ((GameButton) e.getSource()).setText("m");
+                ((GameButton) e.getSource()).setBackground(Color.RED);
+                timer.stop();
+                JOptionPane.showMessageDialog(null, "VESZTETTÉL");
+                startNewGame(size);
+                return;
             }
             if (logic.isFine()) {
                 timer.stop();
@@ -136,7 +153,9 @@ public class MinesweeperView extends JFrame {
 
     void setupWindow() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setPreferredSize(new Dimension(500, 500));
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        setLocation(((Toolkit.getDefaultToolkit().getScreenSize().width - getSize().width) - 650) / 2, ((Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) - 650) / 2);
+        setPreferredSize(new Dimension(650, 650));
         pack();
         setTitle("Mine");
         add(gamePanel);
@@ -144,11 +163,13 @@ public class MinesweeperView extends JFrame {
 
     void initGameField(int size) {
         JPanel jp = new JPanel(new GridLayout(size, size));
+        gameButtons = new JButton[size][size];
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 GameButton jb = new GameButton(i, j);
                 jb.addActionListener(gameButtonListener);
                 jp.add(jb);
+                gameButtons[i][j] = jb;
             }
         }
         gamePanel.add(jp, BorderLayout.CENTER);
@@ -158,7 +179,7 @@ public class MinesweeperView extends JFrame {
         gamePanel.removeAll();
         gamePanel.revalidate();
         gamePanel.repaint();
-        
+
         JPanel jp = new JPanel(new GridLayout(7, 1));
         jp.setBorder(new EmptyBorder(90, 100, 90, 100));
         gamePanel.add(jp, BorderLayout.CENTER);
