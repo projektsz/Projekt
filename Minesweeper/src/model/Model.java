@@ -49,8 +49,8 @@ public class Model implements IModel {
     @Override
     public void createNew(int size) {
         Random random = new Random();
-        int min = (Integer) size*size / 6;
-        int max = (Integer) size*size / 3;
+        int min = (int) (size*size / 5);
+        int max = (int) (size*size / 2.5f);
         int mines = random.nextInt((max - min) + 1) + min;
         table = tableGenerator.generateTable(size, size, mines);
         this.countOfMines = mines;
