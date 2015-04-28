@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JLabel;
@@ -42,7 +43,7 @@ public class MinesweeperView extends JFrame {
     private IModel logic = new Model();
     private JLabel felsoSor;
     private int time;
-    private String name;
+    private String name = "";
     private Timer timer = new Timer(1000, new timerActionListener());
 
     public MinesweeperView() {
@@ -74,24 +75,19 @@ public class MinesweeperView extends JFrame {
     private final ActionListener gameButtonListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (logic.isMine(((GameButton) e.getSource()).getXB(), ((GameButton) e.getSource()).getYB())) {
-                ((GameButton) e.getSource()).setText("m");
-            } else {
-                try {
-                    logic.push(((GameButton) e.getSource()).getXB(), ((GameButton) e.getSource()).getYB());
-                } catch (FieldIsPushedException ex) {
-                    //TODO
-                } catch (FieldIsMineException ex) {
-                    //TODO
-                }
+            try {
+                logic.push(((GameButton) e.getSource()).getXB(), ((GameButton) e.getSource()).getYB());
                 int num = logic.numberOfNearlyMines(((GameButton) e.getSource()).getXB(), ((GameButton) e.getSource()).getYB());
                 ((GameButton) e.getSource()).setText(Integer.toString(num));
+            } catch (FieldIsPushedException ex) {
+                //TODO
+            } catch (FieldIsMineException ex) {
+                ((GameButton) e.getSource()).setText("m");
             }
-
             if (logic.isFine()) {
                 timer.stop();
                 Statistics.getInstance().addWinner(name, size, time);
-                JOptionPane.showMessageDialog(null, "NYERTÉÉ");
+                JOptionPane.showMessageDialog(null, "NYERTÉL");
                 startNewGame(size);
             }
         }
@@ -100,27 +96,24 @@ public class MinesweeperView extends JFrame {
     private final ActionListener menuListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            switch (((JMenuItem) e.getSource()).getText()) {
-                case "5×5":
-                    System.out.println("5");
-                    startNewGame(5);
-                    break;
-                case "10×10":
-                    System.out.println("10");
-                    startNewGame(10);
-                    break;
-                case "15×15":
-                    System.out.println("15");
-                    startNewGame(15);
-                    break;
+            if (!"".equals(name)) {
+                switch (((JMenuItem) e.getSource()).getText()) {
+                    case "5×5":
+                        System.out.println("5");
+                        startNewGame(5);
+                        break;
+                    case "10×10":
+                        System.out.println("10");
+                        startNewGame(10);
+                        break;
+                    case "15×15":
+                        System.out.println("15");
+                        startNewGame(15);
+                        break;
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Add meg a neved");
             }
-        }
-    };
-
-    private final ActionListener newPlayer = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
         }
     };
 
@@ -165,38 +158,50 @@ public class MinesweeperView extends JFrame {
         gamePanel.removeAll();
         gamePanel.revalidate();
         gamePanel.repaint();
-        JPanel jp = new JPanel(new GridLayout(8,1));
-        jp.setBorder(new EmptyBorder(20, 100, 50, 100) );
+        
+        JPanel jp = new JPanel(new GridLayout(7, 1));
+        jp.setBorder(new EmptyBorder(90, 100, 90, 100));
         gamePanel.add(jp, BorderLayout.CENTER);
-        
+
         JTextField jtf = new JTextField();
-        JTextField jtf2 = new JTextField();
-        JTextField jtf3 = new JTextField();
-        JButton jb= new JButton("START");
-        
+        JButton jb = new JButton("START");
+
         jtf.setBorder(BorderFactory.createLineBorder(Color.decode("#2C6791")));
-        
-        
+        String[] petStrings = {"5×5", "10×10", "15×15"};
+        JComboBox cb = new JComboBox(petStrings);
+        jp.add(cb);
+
         jb.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                size = Integer.parseInt(jtf2.getText());
-                logic.createNew(size, size, Integer.parseInt(jtf3.getText()));
-                name = jtf.getText();
-                startNewGame(size);
-                //felsoSor(); 
-                //initGameField(size);
-               //timer.start();
+                if (!"".equals(jtf.getText())) {
+                    switch (cb.getSelectedItem().toString()) {
+                        case "5×5":
+                            size = 5;
+                            break;
+                        case "10×10":
+                            size = 10;
+                            break;
+                        case "15×15":
+                            size = 15;
+                            break;
+                    }
+                    logic.createNew(size, size, 10);
+                    name = jtf.getText();
+                    startNewGame(size);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Add meg a neved");
+                }
             }
         });
         jp.add(new JLabel("Nev:"));
         jp.add(jtf);
         jp.add(new JLabel("Méret:"));
-        jp.add(jtf2);
-        jp.add(new JLabel("Aknák száma:"));
-        jp.add(jtf3);
+        jp.add(cb);
         jp.add(new JLabel());
         jp.add(jb);
+        jp.add(new JLabel());
+
     }
 
     private void setupMenu() {
@@ -220,7 +225,12 @@ public class MinesweeperView extends JFrame {
 
         menuItem = new JMenuItem("Új játékos");
         menu1.add(menuItem);
-        menuItem.addActionListener(newPlayer);
+        menuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                createStartView();
+            }
+        });
 
         //a submenu
         // menu.addSeparator();
