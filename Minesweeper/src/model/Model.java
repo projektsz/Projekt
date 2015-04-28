@@ -142,15 +142,14 @@ public class Model implements IModel {
         for (int rowInd = x - 1; rowInd <= x + 1; ++rowInd) {
             for (int colInd = y - 1; colInd <= y + 1; ++colInd) {
                 try {
-                    //if (//!(x == rowInd && y == colInd)
+                    push(rowInd, colInd);
+                    coords.add(new IntPair(rowInd, colInd));
+                    if (//!(x == rowInd && y == colInd)
                             //  &&
-                            //numberOfNearlyMines(rowInd, colInd) == 0) {
-
-                        push(rowInd, colInd);
-
-                        coords.add(new IntPair(rowInd, colInd));
+                            numberOfNearlyMines(rowInd, colInd) == 0) {
+                        
                         coords.addAll(findEmptyNeighbors(rowInd, colInd));
-                   // }
+                    }
                 } catch (ArrayIndexOutOfBoundsException |
                         FieldIsMineException | FieldIsPushedException e) {
                     // if (x,y) is the border of table or exceptions of push()
