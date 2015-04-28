@@ -155,13 +155,10 @@ public class ModelTest {
 
         Set<IntPair> notPushed = new HashSet<>();
         for (IntPair mine : mines) {
-            for (int rowInd = mine.first - 1; rowInd <= mine.first + 1; ++rowInd) {
-                for (int colInd = mine.second - 1; colInd <= mine.second + 1; ++colInd) {
-                    assertFalse(model.isPushed(rowInd, colInd));
-                    notPushed.add(new IntPair(rowInd, colInd));
-                }
-            }
+            assertFalse(model.isPushed(mine.first, mine.second));
+            notPushed.add(new IntPair(mine.first, mine.second));
         }
+
         Set<IntPair> pushed = new TreeSet<>();
         for (int i = 0; i < 20; ++i) {
             for (int j = 0; j < 20; ++j) {
