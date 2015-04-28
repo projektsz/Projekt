@@ -44,6 +44,20 @@ public class Model implements IModel {
     }
 
     /**
+     * See {@link IModel#createNew(int size)}
+     */
+    @Override
+    public void createNew(int size) {
+        Random random = new Random();
+        int min = (Integer) size*size / 6;
+        int max = (Integer) size*size / 3;
+        int mines = random.nextInt((max - min) + 1) + min;
+        table = tableGenerator.generateTable(size, size, mines);
+        this.countOfMines = mines;
+        this.countOfPushed = 0;
+    }
+
+    /**
      * See {@link IModel#isMine(int x, int y)}
      */
     @Override
@@ -152,5 +166,5 @@ public class Model implements IModel {
             push(coord.first, coord.second);
         }
     }
-    
+
 }

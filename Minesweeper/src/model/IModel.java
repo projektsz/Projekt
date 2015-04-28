@@ -16,6 +16,13 @@ public interface IModel {
      * @param countOfMines count of mines of new table
      */
     public void createNew(int xSize, int ySize, int countOfMines);
+	
+	/**
+     * construct a new table with specified size and generates random number of mines
+     *
+     * @param size horizontal and vertical size of new table
+     */
+    public void createNew(int size);
 
     /**
      * Check this field, is this a mine
