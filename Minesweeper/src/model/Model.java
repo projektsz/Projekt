@@ -1,6 +1,9 @@
 package model;
 
+import java.util.Collection;
 import java.util.Random;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  *
@@ -41,6 +44,20 @@ public class Model implements IModel {
     }
 
     /**
+     * See {@link IModel#createNew(int size)}
+     */
+    @Override
+    public void createNew(int size) {
+        Random random = new Random();
+        int min = (int) (size*size / 5);
+        int max = (int) (size*size / 2.5f);
+        int mines = random.nextInt((max - min) + 1) + min;
+        table = tableGenerator.generateTable(size, size, mines);
+        this.countOfMines = mines;
+        this.countOfPushed = 0;
+    }
+
+    /**
      * See {@link IModel#isMine(int x, int y)}
      */
     @Override
@@ -68,27 +85,34 @@ public class Model implements IModel {
      * See {@link IModel#push(int x, int y)}
      */
     @Override
+    public void push(int x, int y) throws FieldIsPushedException, FieldIsMineException {
         if (isPushed(x, y)) {
             throw new FieldIsPushedException("");
         }
-
         if (isMine(x, y)) {
-        }
-
-        int mines = 0;
-        try {
-            for (int rowMod = -1; rowMod <= 1; ++rowMod) {
-                for (int colMod = -1; colMod <= 1; ++colMod) {
-                        ++mines;
-                    }
-                }
-            }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            //SKIP
+            throw new FieldIsMineException("");
         }
 
         table.setField(x, y, ITableGenerator.marks);
         ++countOfPushed;
+    }
+
+    /**
+     * See {@link IModel#numberOfNearlyMines()}
+     */
+    @Override
+    public int numberOfNearlyMines(int x, int y) {
+        int mines = 0;
+        for (int rowMod = -1; rowMod <= 1; ++rowMod) {
+            for (int colMod = -1; colMod <= 1; ++colMod) {
+                try {
+                    if (isMine(x + colMod, y + rowMod)) {
+                        ++mines;
+                    }
+                } catch (ArrayIndexOutOfBoundsException e) {
+                }
+            }
+        }
         return mines;
     }
 
@@ -107,4 +131,39 @@ public class Model implements IModel {
 
         return new IntPair(x, y);
     }
+
+    /**
+     * See {@link IModel#findEmptyNeighbors()}
+     */
+    @Override
+    public Collection<IntPair> findEmptyNeighbors(int x, int y) {
+        Set<IntPair> coords = new TreeSet<>();
+
+        for (int rowInd = x - 1; rowInd <= x + 1; ++rowInd) {
+            for (int colInd = y - 1; colInd <= y + 1; ++colInd) {
+                try {
+                    push(rowInd, colInd);
+                    coords.add(new IntPair(rowInd, colInd));
+                    if (//!(x == rowInd && y == colInd)
+                            //  &&
+                            numberOfNearlyMines(rowInd, colInd) == 0) {
+                        
+                        coords.addAll(findEmptyNeighbors(rowInd, colInd));
+                    }
+                } catch (ArrayIndexOutOfBoundsException |
+                        FieldIsMineException | FieldIsPushedException e) {
+                    // if (x,y) is the border of table or exceptions of push()
+                }
+            }
+        }
+        return coords;
+    }
+
+    private void pushAll(Collection<IntPair> coords)
+            throws FieldIsPushedException, FieldIsMineException {
+        for (IntPair coord : coords) {
+            push(coord.first, coord.second);
+        }
+    }
+
 }

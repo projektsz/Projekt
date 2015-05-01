@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Collection;
+
 /**
  *
  * @author kmate
@@ -14,6 +16,13 @@ public interface IModel {
      * @param countOfMines count of mines of new table
      */
     public void createNew(int xSize, int ySize, int countOfMines);
+	
+	/**
+     * construct a new table with specified size and generates random number of mines
+     *
+     * @param size horizontal and vertical size of new table
+     */
+    public void createNew(int size);
 
     /**
      * Check this field, is this a mine
@@ -47,9 +56,8 @@ public interface IModel {
      * @param y table's vertical coordinate
      * @throws FieldIsPushedException if the (x,y) field is checked
      * @throws FieldIsMineException if the (x,y) field is mine
-     * @return number of the mines which is in the neighbour if this element
      */
-    public int push(int x, int y) throws FieldIsPushedException, FieldIsMineException;
+    public void push(int x, int y) throws FieldIsPushedException, FieldIsMineException;
 
     /**
      * Give a hint in the format: (x,y)
@@ -57,5 +65,23 @@ public interface IModel {
      * @return returns a pair. The first is x coord., second is y coord.
      */
     public IntPair hint();
+
+    /**
+     *
+     * @param x table's horizontal coordinate
+     * @param y table's vertical coordinate
+     * @return number of the mines which is in the neighbour if this element
+     */
+    public int numberOfNearlyMines(int x, int y);
+
+    /**
+     * Find neighbors of (x,y) witch is not pushed or mine. It will push them
+     * and return coordinates
+     *
+     * @param x table's horizontal coordinate
+     * @param y table's vertical coordinate
+     * @return coordinates of pushed fields
+     */
+    public Collection<IntPair> findEmptyNeighbors(int x, int y);
 
 }

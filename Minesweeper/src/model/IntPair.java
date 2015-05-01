@@ -35,4 +35,14 @@ public class IntPair implements Comparable<IntPair> {
         }
         return 0;
     }
+
+    @Override
+    public String toString() {
+        return "(" + first + ", " + second + ")";
+    }
+
+    @Override
+    public int hashCode() {
+        return first + second;
+    }
 }

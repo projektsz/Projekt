@@ -6,11 +6,12 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
-import org.junit.After;
-import org.junit.AfterClass;
+import java.util.Set;
+import java.util.TreeSet;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -103,10 +104,9 @@ public class ModelTest {
     @Test
     public void testPush() throws FieldIsPushedException, FieldIsMineException {
         model.createNew(20, 20, 5);
+
         model.push(10, 11);
-        assertTrue(model.isPushed(10, 11));        
-        assertEquals(model.push(10, 9), 1);
-        
+        assertTrue(model.isPushed(10, 11));
         try {
             model.push(10, 10);
             assertTrue(false);
@@ -133,4 +133,42 @@ public class ModelTest {
         assertFalse(model.isPushed(pair.first, pair.second));
     }
 
+    /**
+     *
+     */
+    @Test
+    public void testNumberOfNearlyMines() {
+        model.createNew(20, 20, 5);
+
+        assertEquals(model.numberOfNearlyMines(6, 6), 2);
+        assertEquals(model.numberOfNearlyMines(6, 7), 1);
+        assertEquals(model.numberOfNearlyMines(0, 0), 0);
+    }
+
+    /**
+     * Test of findEmptyNeighbors method, of class Model
+     */
+    @Test
+    public void testFindEmptyNeighbors() {
+        model.createNew(20, 20, 5);
+        Collection<IntPair> found = model.findEmptyNeighbors(3, 11);
+
+        Set<IntPair> notPushed = new HashSet<>();
+        for (IntPair mine : mines) {
+            assertFalse(model.isPushed(mine.first, mine.second));
+            notPushed.add(new IntPair(mine.first, mine.second));
+        }
+
+        Set<IntPair> pushed = new TreeSet<>();
+        for (int i = 0; i < 20; ++i) {
+            for (int j = 0; j < 20; ++j) {
+                IntPair act = new IntPair(i, j);
+                if (!notPushed.contains(act)) {
+                    assertTrue(model.isPushed(i, j));
+                    pushed.add(act);
+                }
+            }
+        }
+        assertEquals(pushed, found);
+    }
 }
