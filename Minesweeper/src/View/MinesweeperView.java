@@ -230,7 +230,7 @@ public class MinesweeperView extends JFrame {
     private void averageTime(int size){
         if(size == 5){
             if(Statistics.getInstance().getAverageTime(5) < 0){
-                JOptionPane.showMessageDialog(null,"Az átlagos idő 5x5-ös táblán: "+ System.lineSeparator() + "0.0", "Átlagos idő", 1);        
+                JOptionPane.showMessageDialog(null,"Az átlagos idő 5x5-ös táblán: "+ System.lineSeparator() + "Nincs rögzített eredmény!", "Átlagos idő", 1);        
             }
             else{
                 JOptionPane.showMessageDialog(null,"Az átlagos idő 5x5-ös táblán: "+ System.lineSeparator() + Statistics.getInstance().getAverageTime(5), "Átlagos idő", 1);    
