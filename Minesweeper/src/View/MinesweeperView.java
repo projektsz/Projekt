@@ -227,7 +227,68 @@ public class MinesweeperView extends JFrame {
         jp.add(new JLabel());
 
     }
-
+    private void averageTime(int size){
+        if(size == 5){
+            if(Statistics.getInstance().getAverageTime(5) < 0){
+                JOptionPane.showMessageDialog(null,"Az átlagos idő 5x5-ös táblán: "+ System.lineSeparator() + "0.0", "Átlagos idő", 1);        
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"Az átlagos idő 5x5-ös táblán: "+ System.lineSeparator() + Statistics.getInstance().getAverageTime(5), "Átlagos idő", 1);    
+                //JOptionPane.showMessageDialog()
+            }
+        }
+        else if(size == 10){
+            if(Statistics.getInstance().getAverageTime(10) < 0){
+                JOptionPane.showMessageDialog(null,"Az átlagos idő 10x10-ös táblán: "+ System.lineSeparator() + "Nincs rögzített eredmény!", "Átlagos idő", 1);                   
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"Az átlagos idő 10x10-ös táblán: "+ System.lineSeparator() + Statistics.getInstance().getAverageTime(10), "Átlagos idő", 1);    
+            }
+        }
+        else if(size == 15){
+            if(Statistics.getInstance().getAverageTime(15) < 0){
+                JOptionPane.showMessageDialog(null,"Az átlagos idő 15x15-ös táblán: "+ System.lineSeparator() + "Nincs rögzített eredmény!", "Átlagos idő", 1);                   
+            }
+            else{
+                JOptionPane.showMessageDialog(null,"Az átlagos idő 15x15-ös táblán: "+ System.lineSeparator() + Statistics.getInstance().getAverageTime(15), "Átlagos idő", 1);    
+            }
+        }
+    }
+    
+    private void winnerCount(int size){
+        //Összes győztes száma
+        if(size == 0){
+            if(Statistics.getInstance().getWinnerCount() == 0){
+                JOptionPane.showMessageDialog(null,"Győztesek száma az összes táblán: "+ System.lineSeparator() + "Még nem nyert senki ezen a táblán!", "Győztesek száma", 1);    
+            }else{
+                JOptionPane.showMessageDialog(null,"Győztesek száma az összes táblán: "+ System.lineSeparator() + Statistics.getInstance().getWinnerCount(), "Győztesek száma", 1);    
+            }
+        }    
+        //5x5-ös győztesek száma
+        else if(size == 5){
+            if(Statistics.getInstance().getWinnerCount(5) == 0){
+                JOptionPane.showMessageDialog(null,"Győztesek száma az 5x5-ös táblán: "+ System.lineSeparator() + "Még nem nyert senki ezen a táblán!", "Győztesek száma", 1);    
+            }else{            
+                JOptionPane.showMessageDialog(null,"Győztesek száma az 5x5-ös táblán: "+ System.lineSeparator() + Statistics.getInstance().getWinnerCount(5), "Győztesek száma", 1);    
+            }
+        }
+        //10x10-es győztesek száma
+        else if(size == 10){
+            if(Statistics.getInstance().getWinnerCount(10) == 0){
+                JOptionPane.showMessageDialog(null,"Győztesek száma az 10x10-ös táblán: "+ System.lineSeparator() + "Még nem nyert senki ezen a táblán!", "Győztesek száma", 1);    
+            }else{                
+                JOptionPane.showMessageDialog(null,"Győztesek száma az 10x10-ös táblán: "+ System.lineSeparator() + Statistics.getInstance().getWinnerCount(10), "Győztesek száma", 1);      
+            }
+        }
+        ////15x15-ös győztesek száma
+        else if(size == 15){
+            if(Statistics.getInstance().getWinnerCount(15) == 0){
+                JOptionPane.showMessageDialog(null,"Győztesek száma az 15x15-ös táblán: "+ System.lineSeparator() + "Még nem nyert senki ezen a táblán!", "Győztesek száma", 1);    
+            }else{                
+                JOptionPane.showMessageDialog(null,"Győztesek száma az 15x15-ös táblán: "+ System.lineSeparator() + Statistics.getInstance().getWinnerCount(15), "Győztesek száma", 1);       
+            }
+        }
+    }
     private void setupMenu() {
         JMenuBar menuBar = new JMenuBar();
         JMenu menu1, statMenu, submenu;
@@ -235,7 +296,7 @@ public class MinesweeperView extends JFrame {
         JMenuItem menuItem;
 
         JMenuItem rekorderItem1, rekorderItem2, rekorderItem3;
-        JMenuItem averageTimeItem;
+        JMenuItem averageTimeItem1, averageTimeItem2, averageTimeItem3;
         JMenuItem winnerCountItem1, winnerCountItem2, winnerCountItem3, winnerCountItem4;
         JMenuItem mostWinnerItem1, mostWinnerItem2, mostWinnerItem3, mostWinnerItem4;
 
@@ -289,11 +350,33 @@ public class MinesweeperView extends JFrame {
         rekorderMenu.add(rekorderItem2);
         rekorderMenu.add(rekorderItem3);
         //average time submenu
-        averageTimeMenu = new JMenu("Átlagos idők");
+        averageTimeMenu = new JMenu("Átlagos idők");        
         statMenu.add(averageTimeMenu);
 
-        averageTimeItem = new JMenuItem("Átlagos idő");
-        averageTimeMenu.add(averageTimeItem);
+        averageTimeItem1 = new JMenuItem("Átlagos idő (5x5)");
+        averageTimeItem2 = new JMenuItem("Átlagos idő (10x10)");
+        averageTimeItem3 = new JMenuItem("Átlagos idő (15x15)");
+        averageTimeItem1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                averageTime(5);
+            }
+        });
+        averageTimeItem2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                averageTime(10);
+            }
+        });
+        averageTimeItem3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                averageTime(15);
+            }
+        });
+        averageTimeMenu.add(averageTimeItem1);
+        averageTimeMenu.add(averageTimeItem2);
+        averageTimeMenu.add(averageTimeItem3);
 
         //winner count submenu
         winnerCountMenu = new JMenu("Nyertesek száma");
@@ -303,6 +386,31 @@ public class MinesweeperView extends JFrame {
         winnerCountItem2 = new JMenuItem("Győztesek száma (10x10)");
         winnerCountItem3 = new JMenuItem("Győztesek száma (15x15)");
         winnerCountItem4 = new JMenuItem("Győztesek száma (összes típuson)");
+        
+        winnerCountItem1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                winnerCount(5);
+            }
+        });
+        winnerCountItem2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                winnerCount(10);
+            }
+        });
+        winnerCountItem3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                winnerCount(15);
+            }
+        });
+        winnerCountItem4.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                winnerCount(0);
+            }
+        });
 
         winnerCountMenu.add(winnerCountItem1);
         winnerCountMenu.add(winnerCountItem2);

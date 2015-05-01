@@ -175,7 +175,12 @@ public class Statistics {
                 atlagido += winners.get(i).getTime();
             }
         }
-        atlagido = atlagido / ido;
+        if(ido > 0 && atlagido > 0){
+            atlagido = atlagido / ido;
+        }else
+        {
+            atlagido = -1;
+        }
         return atlagido;
     }
 
