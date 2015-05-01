@@ -334,7 +334,7 @@ public class MinesweeperView extends JFrame {
        
             }
         }               
-        frame.setLocation(((Toolkit.getDefaultToolkit().getScreenSize().width - getSize().width) + 65) / 2, ((Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) + 400) / 2);
+        frame.setLocation(((Toolkit.getDefaultToolkit().getScreenSize().width - getSize().width) + 100) / 2, ((Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) + 300) / 2);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setContentPane(new Lista());
         frame.setSize(600, 200);
