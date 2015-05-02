@@ -232,76 +232,136 @@ public class MinesweeperView extends JFrame {
         jp.add(new JLabel());
 
     }
-    private String averageTimeHiba(){
-        return "Nincs rögzített eredmény!";
+    //Average Time window 
+    private void averageTime(int size){     
+     
+        JFrame frame = new JFrame("Átlagos idő");
+        class AtlagosIdo extends JPanel{
+
+            JButton oke;
+            JLabel eredmeny;
+            AtlagosIdo(){
+                
+                setLayout(new BorderLayout());
+                //5x5 field
+                if(size == 5){
+                    if(Statistics.getInstance().getAverageTime(5) < 0){
+                        eredmeny = new JLabel("Átlagos idő az 5x5-ös táblán: Még nincs bejegyzett eredmény!");
+                    }
+                    else{
+                        eredmeny = new JLabel("Átlagos idő  az 5x5-ös táblán: " + Statistics.getInstance().getAverageTime(5));
+                    }
+                }
+                //10x10 field
+                else if(size == 10){
+                    if(Statistics.getInstance().getAverageTime(10) < 0){
+                        eredmeny = new JLabel("Átlagos idő az 10x10-es táblán: Még nincs bejegyzett eredmény!");
+                    }
+                    else{
+                        eredmeny = new JLabel("Átlagos idő az 10x10-es táblán: " + Statistics.getInstance().getAverageTime(10));
+                    }
+                }
+                //15x15 field
+                else if(size == 15){
+                    if(Statistics.getInstance().getAverageTime(15) < 0){
+                        eredmeny = new JLabel("Átlagos idő az 15x15-ös táblán: Még nincs bejegyzett eredmény!");
+                    }
+                    else{
+                        eredmeny = new JLabel("Átlagos idő az 15x15-ös táblán: " + Statistics.getInstance().getAverageTime(15));
+                    }
+                }
+                //Ok button to close Average time window
+                oke = new JButton("OK");
+                oke.addActionListener(new ActionListener() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        frame.dispose();
+                    }
+                });
+                        
+                add(eredmeny, BorderLayout.CENTER);
+                add(oke, BorderLayout.PAGE_END);
+       
+            }
+        }               
+        frame.setLocation(((Toolkit.getDefaultToolkit().getScreenSize().width - getSize().width) + 200) / 2, ((Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) + 400) / 2);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setContentPane(new AtlagosIdo());
+        frame.setSize(500, 100);
+        frame.setVisible(true);            
+
     }
-    private void averageTime(int size){        
-        if(size == 5){
-            if(Statistics.getInstance().getAverageTime(5) < 0){
-                JOptionPane.showMessageDialog(null,"Az átlagos idő 5x5-ös táblán: "+ System.lineSeparator() + averageTimeHiba(), "Átlagos idő", 1);        
-            }
-            else{
-                JOptionPane.showMessageDialog(null,"Az átlagos idő 5x5-ös táblán: "+ System.lineSeparator() + Statistics.getInstance().getAverageTime(5), "Átlagos idő", 1);    
-                //JOptionPane.showMessageDialog()
-            }
-        }
-        else if(size == 10){
-            if(Statistics.getInstance().getAverageTime(10) < 0){
-                JOptionPane.showMessageDialog(null,"Az átlagos idő 10x10-ös táblán: "+ System.lineSeparator() + averageTimeHiba(), "Átlagos idő", 1);                   
-            }
-            else{
-                JOptionPane.showMessageDialog(null,"Az átlagos idő 10x10-ös táblán: "+ System.lineSeparator() + Statistics.getInstance().getAverageTime(10), "Átlagos idő", 1);    
-            }
-        }
-        else if(size == 15){
-            if(Statistics.getInstance().getAverageTime(15) < 0){
-                JOptionPane.showMessageDialog(null,"Az átlagos idő 15x15-ös táblán: "+ System.lineSeparator() + averageTimeHiba(), "Átlagos idő", 1);                   
-            }
-            else{
-                JOptionPane.showMessageDialog(null,"Az átlagos idő 15x15-ös táblán: "+ System.lineSeparator() + Statistics.getInstance().getAverageTime(15), "Átlagos idő", 1);    
-            }
-        }
-    }
-    private String winnerCoundHiba(){
-        return "Még nem nyert senki ezen a táblán!";
-    }
+    //winner count window
     private void winnerCount(int size){
-        //Összes győztes száma
-        if(size == 0){
-            if(Statistics.getInstance().getWinnerCount() == 0){
-                JOptionPane.showMessageDialog(null,"Győztesek száma az összes táblán: "+ System.lineSeparator() + winnerCoundHiba(), "Győztesek száma", 1);    
-            }else{
-                JOptionPane.showMessageDialog(null,"Győztesek száma az összes táblán: "+ System.lineSeparator() + Statistics.getInstance().getWinnerCount(), "Győztesek száma", 1);    
+    JFrame frame = new JFrame("Győztesek száma");
+        class GyoztesekSzama extends JPanel{
+
+            JButton oke;
+            JLabel eredmeny;
+            GyoztesekSzama(){
+                
+                setLayout(new BorderLayout());
+                //all fields
+                if(size == 0){
+                    if(Statistics.getInstance().getWinnerCount() == 0){
+                        eredmeny = new JLabel("Győztesek száma az összes táblán: Még nincs bejegyzett eredmény!");
+                    }
+                    else{
+                        eredmeny = new JLabel("Győztesek száma az összes táblán: " + Statistics.getInstance().getWinnerCount());
+                    }
+                }           
+                //5x5 field
+                if(size == 5){
+                    if(Statistics.getInstance().getWinnerCount(5) == 0){
+                        eredmeny = new JLabel("Győztesek száma az 5x5-ös táblán: Még nincs bejegyzett eredmény!");
+                    }
+                    else{
+                        eredmeny = new JLabel("Győztesek száma az 5x5-ös táblán: " + Statistics.getInstance().getWinnerCount(5));
+                    }
+                }
+                //10x10 field
+                else if(size == 10){
+                    if(Statistics.getInstance().getWinnerCount(10) == 0){
+                        eredmeny = new JLabel("Győztesek száma az 10x10-es táblán: Még nincs bejegyzett eredmény!");
+                    }
+                    else{
+                        eredmeny = new JLabel("Győztesek száma az 10x10-es táblán: " + Statistics.getInstance().getWinnerCount(10));
+                    }
+                }
+                //15x15 field
+                else if(size == 15){
+                    if(Statistics.getInstance().getWinnerCount(15) == 0){
+                        eredmeny = new JLabel("Győztesek száma az 15x15-ös táblán: Még nincs bejegyzett eredmény!");
+                    }
+                    else{
+                        eredmeny = new JLabel("Győztesek száma az 15x15-ös táblán: " + Statistics.getInstance().getWinnerCount(15));
+                    }
+                }
+                //ok button to close winner count window
+                oke = new JButton("OK");
+                oke.addActionListener(new ActionListener() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        frame.dispose();
+                    }
+                });
+                        
+                add(eredmeny, BorderLayout.CENTER);
+                add(oke, BorderLayout.PAGE_END);
+       
             }
-        }    
-        //5x5-ös győztesek száma
-        else if(size == 5){
-            if(Statistics.getInstance().getWinnerCount(5) == 0){
-                JOptionPane.showMessageDialog(null,"Győztesek száma az 5x5-ös táblán: "+ System.lineSeparator() + winnerCoundHiba(), "Győztesek száma", 1);    
-            }else{            
-                JOptionPane.showMessageDialog(null,"Győztesek száma az 5x5-ös táblán: "+ System.lineSeparator() + Statistics.getInstance().getWinnerCount(5), "Győztesek száma", 1);    
-            }
-        }
-        //10x10-es győztesek száma
-        else if(size == 10){
-            if(Statistics.getInstance().getWinnerCount(10) == 0){
-                JOptionPane.showMessageDialog(null,"Győztesek száma az 10x10-ös táblán: "+ System.lineSeparator() + winnerCoundHiba(), "Győztesek száma", 1);    
-            }else{                
-                JOptionPane.showMessageDialog(null,"Győztesek száma az 10x10-ös táblán: "+ System.lineSeparator() + Statistics.getInstance().getWinnerCount(10), "Győztesek száma", 1);      
-            }
-        }
-        ////15x15-ös győztesek száma
-        else if(size == 15){
-            if(Statistics.getInstance().getWinnerCount(15) == 0){
-                JOptionPane.showMessageDialog(null,"Győztesek száma az 15x15-ös táblán: "+ System.lineSeparator() + winnerCoundHiba(), "Győztesek száma", 1);    
-            }else{                
-                JOptionPane.showMessageDialog(null,"Győztesek száma az 15x15-ös táblán: "+ System.lineSeparator() + Statistics.getInstance().getWinnerCount(15), "Győztesek száma", 1);       
-            }
-        }
-    }
-    
+        }               
+        frame.setLocation(((Toolkit.getDefaultToolkit().getScreenSize().width - getSize().width) + 200) / 2, ((Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) + 400) / 2);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setContentPane(new GyoztesekSzama());
+        frame.setSize(500, 100);
+        frame.setVisible(true);        
+     }
+    //winners list window
     private void winners(){
-        
+        //getting list of the winners
         List<Winner> nyertesek = Statistics.getInstance().getWinners();     
         
         JFrame frame = new JFrame("Győztesek");
@@ -313,11 +373,16 @@ public class MinesweeperView extends JFrame {
                 
                 setLayout(new BorderLayout());
                 model = new DefaultListModel();
-                list = new JList(model);                              
+                list = new JList(model);    //creation of list
                 JScrollPane pane = new JScrollPane(list);
-
+                
+                //list filling with values
                 for(Winner winner: nyertesek){
                     model.addElement(winner.toString());
+                }
+                //case of empty list 
+                if(nyertesek.isEmpty()){
+                    model.addElement("Még nem nyert senki a játékban!");
                 }
 
                 oke = new JButton("OK");
@@ -341,12 +406,138 @@ public class MinesweeperView extends JFrame {
         frame.setVisible(true);
    
     }
+    //recorders window
+    private void rekorders(int size){
+        JFrame frame = new JFrame("Rekorder");
+        class Rekorderek extends JPanel{
+
+            JButton oke;
+            JLabel eredmeny;
+            Rekorderek(){
+                
+                setLayout(new BorderLayout());
+                //5x5 field
+                if(size == 5){
+                    if(Statistics.getInstance().getRecorder(5) == null){
+                        eredmeny = new JLabel("Az 5x5-ös tábla rekordere: Még nincs bejegyzett rekord!");
+                    }
+                    else{
+                        eredmeny = new JLabel("Az 5x5-ös tábla rekordere: " + Statistics.getInstance().getRecorder(5).getName());
+                    }
+                }
+                //10x10 field
+                else if(size == 10){
+                    if(Statistics.getInstance().getRecorder(10) == null){
+                        eredmeny = new JLabel("Az 10x10-es tábla rekordere: Még nincs bejegyzett rekord!");
+                    }
+                    else{
+                        eredmeny = new JLabel("Az 10x10-es tábla rekordere: " + Statistics.getInstance().getRecorder(10).getName());
+                    }
+                }
+                //15x15 field
+                else if(size == 15){
+                    if(Statistics.getInstance().getRecorder(15) == null){
+                        eredmeny = new JLabel("Az 15x15-ös tábla rekordere: Még nincs bejegyzett rekord!");
+                    }
+                    else{
+                        eredmeny = new JLabel("Az 15x15-ös tábla rekordere: " + Statistics.getInstance().getRecorder(15).getName());
+                    }
+                }
+                //ok button to close recorders window
+                oke = new JButton("OK");
+                oke.addActionListener(new ActionListener() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        frame.dispose();
+                    }
+                });
+                        
+                add(eredmeny, BorderLayout.CENTER);
+                add(oke, BorderLayout.PAGE_END);
+       
+            }
+        }               
+        frame.setLocation(((Toolkit.getDefaultToolkit().getScreenSize().width - getSize().width) + 200) / 2, ((Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) + 400) / 2);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setContentPane(new Rekorderek());
+        frame.setSize(500, 100);
+        frame.setVisible(true);
+    }
+    //most winners window
+    private void mostWinners(int size){
+        JFrame frame = new JFrame("Legtöbbet nyerő játékosok");
+        class LegtobbNyeres extends JPanel{
+
+            JButton oke;
+            JLabel eredmeny;
+            LegtobbNyeres(){
+                
+                setLayout(new BorderLayout());
+                
+                //all of fields
+                if(size == 0){
+                    if(Statistics.getInstance().getMostWinner().equals("")){
+                        eredmeny = new JLabel("Az összes táblán a legtöbbet nyerte: Még nincs bejegyzett játékos!");
+                    }
+                    else{
+                        eredmeny = new JLabel("Az összes táblán a legtöbbet nyerte: " + Statistics.getInstance().getMostWinner());
+                    }
+                }              
+                //5x5 field
+                if(size == 5){
+                    if(Statistics.getInstance().getMostWinner(5).equals("")){
+                        eredmeny = new JLabel("Az 5x5-ös táblán a legtöbbet nyerte: Még nincs bejegyzett játékos!");
+                    }
+                    else{
+                        eredmeny = new JLabel("Az 5x5-ös táblán a legtöbbet nyerte: " + Statistics.getInstance().getMostWinner(5));
+                    }
+                }
+                //10x10 field
+                else if(size == 10){
+                    if(Statistics.getInstance().getMostWinner(10).equals("")){
+                        eredmeny = new JLabel("Az 10x10-es táblán a legtöbbet nyerte: Még nincs bejegyzett játékos!");
+                    }
+                    else{
+                        eredmeny = new JLabel("Az 10x10-es táblán a legtöbbet nyerte: " + Statistics.getInstance().getMostWinner(10));
+                    }
+                }
+                //15x15 field
+                else if(size == 15){
+                    if(Statistics.getInstance().getMostWinner(15).equals("")){
+                        eredmeny = new JLabel("Az 15x15-ös táblán a legtöbbet nyerte: Még nincs bejegyzett játékos!");
+                    }
+                    else{
+                        eredmeny = new JLabel("Az 15x15-ös táblán a legtöbbet nyerte: " + Statistics.getInstance().getMostWinner(15));
+                    }
+                }
+                //ok button to close most winners window
+                oke = new JButton("OK");
+                oke.addActionListener(new ActionListener() {
+
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        frame.dispose();
+                    }
+                });
+                        
+                add(eredmeny, BorderLayout.CENTER);
+                add(oke, BorderLayout.PAGE_END);
+       
+            }
+        }               
+        frame.setLocation(((Toolkit.getDefaultToolkit().getScreenSize().width - getSize().width) + 200) / 2, ((Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) + 400) / 2);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setContentPane(new LegtobbNyeres());
+        frame.setSize(500, 100);
+        frame.setVisible(true);
+    }    
     
     private void setupMenu() {
         JMenuBar menuBar = new JMenuBar();
         JMenu menu1, statMenu, submenu;
         JMenu rekorderMenu, averageTimeMenu, winnerCountMenu, mostWinnerMenu;
-        JMenuItem menuItem;
+        JMenuItem menuItem, quit;
 
         JMenuItem winnersMenu;
         JMenuItem rekorderItem1, rekorderItem2, rekorderItem3;
@@ -389,6 +580,17 @@ public class MinesweeperView extends JFrame {
         menuItem.addActionListener(menuListener);
         menu1.add(submenu);
 
+        
+        quit = new JMenuItem("Kilépés");
+        quit.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+        menu1.add(quit);
+        
         //Build second menu in the menu bar.
         statMenu = new JMenu("Statisztika");
         menuBar.add(statMenu);
@@ -412,6 +614,29 @@ public class MinesweeperView extends JFrame {
         rekorderItem1 = new JMenuItem("Rekorder (5x5)");
         rekorderItem2 = new JMenuItem("Rekorder (10x10)");
         rekorderItem3 = new JMenuItem("Rekorder (15x15)");
+        
+        rekorderItem1.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                rekorders(5);
+            }
+        });
+        rekorderItem2.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                rekorders(10);
+            }
+        });
+        rekorderItem3.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                rekorders(15);
+            }
+        });
+        
 
         rekorderMenu.add(rekorderItem1);
         rekorderMenu.add(rekorderItem2);
@@ -493,6 +718,36 @@ public class MinesweeperView extends JFrame {
         mostWinnerItem2 = new JMenuItem("Legtöbbet nyerő (10x10)");
         mostWinnerItem3 = new JMenuItem("Legtöbbet nyerő (15x15)");
         mostWinnerItem4 = new JMenuItem("Legtöbbet nyerő (összes típuson)");
+        
+        
+        mostWinnerItem1.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mostWinners(5);
+            }
+        });
+        mostWinnerItem2.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mostWinners(10);
+            }
+        });
+        mostWinnerItem3.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mostWinners(15);
+            }
+        });
+        mostWinnerItem4.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mostWinners(0);
+            }
+        });
 
         mostWinnerMenu.add(mostWinnerItem1);
         mostWinnerMenu.add(mostWinnerItem2);
