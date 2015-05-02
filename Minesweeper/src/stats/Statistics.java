@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -221,7 +222,50 @@ public class Statistics {
      * @return Jatekos neve
      */
     public String getMostWinner(int type) {
-        return "";
+        Winner[] tomb = winners.toArray(new Winner[winners.size()]);
+
+        if (tomb.length == 0) {
+            return null;
+        }
+
+        for (int i = tomb.length - 1; i > 0; i--) {
+            for (int j = 0; j < i; j++) {
+                if (tomb[j + 1].getName().compareToIgnoreCase(tomb[j].getName()) < 0) {
+                    Winner nev = tomb[j];
+                    tomb[j] = tomb[j + 1];
+                    tomb[j + 1] = nev;
+                }
+            }
+        }
+
+        int szamol = 1;
+        int max = 0;
+        String nev = null;
+
+        if (tomb.length == 1) {
+            if (type == tomb[0].getGametype()) {
+                return tomb[0].getName();
+            } else {
+                return null;
+            }
+        }
+
+        for (int i = 0; i < tomb.length - 1; i++) {
+            if (type == tomb[i].getGametype()) {
+                if (tomb[i].getName().equals(tomb[i + 1].getName())) {
+                    szamol++;
+                } else {
+                    szamol = 1;
+                }
+
+                if (szamol > max) {
+                    max = szamol;
+                    nev = tomb[i].getName();
+                }
+            }
+        }
+
+        return nev;
     }
 
     /**
@@ -231,7 +275,40 @@ public class Statistics {
      * @return Jatekos neve
      */
     public String getMostWinner() {
-        return "";
+        Winner[] tomb = winners.toArray(new Winner[winners.size()]);
+
+        if (tomb.length == 0) {
+            return null;
+        }
+
+        for (int i = tomb.length - 1; i > 0; i--) {
+            for (int j = 0; j < i; j++) {
+                if (tomb[j + 1].getName().compareToIgnoreCase(tomb[j].getName()) < 0) {
+                    Winner nev = tomb[j];
+                    tomb[j] = tomb[j + 1];
+                    tomb[j + 1] = nev;
+                }
+            }
+        }
+
+        int szamol = 0;
+        int max = 0;
+        String nev = tomb[0].getName();
+
+        for (int i = 0; i < tomb.length - 1; i++) {
+            if (tomb[i].getName().equals(tomb[i + 1].getName())) {
+                szamol++;
+            } else {
+                szamol = 0;
+            }
+
+            if (szamol > max) {
+                max = szamol;
+                nev = tomb[i].getName();
+            }
+        }
+
+        return nev;
     }
 
     /**
