@@ -19,4 +19,6 @@ Hogyan fordítsuk a projektet Maven-nel?
 3. Javadoc
 
 - mvn javadoc:javadoc
+	- A target mappán belül az apidocs mappába generálja a javadoc-ot
 - mvn javadoc:jar
+	- Csinál egy olyan jar file-t ami tartalmazza a javadoc-ot is
