@@ -15,3 +15,8 @@ Hogyan fordítsuk a projektet Maven-nel?
 	- Ha csak a junit teszteket szeretnéd futtatni: mvn test
 	- Ha jar fájlt szeretnél generálni: mvn package
 - Sikeres fordítás után a fájlok a target mappában találhatóak
+
+3. Javadoc
+
+- mvn javadoc:javadoc
+- mvn javadoc:jar
