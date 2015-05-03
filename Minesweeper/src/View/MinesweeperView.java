@@ -294,8 +294,64 @@ public class MinesweeperView extends JFrame {
         jp.add(new JLabel());
 
     }
-
-    //Average Time window 
+     /**
+     * Megjelenítendő idő átalakítása másodpercből szabvány hh:mm:ss formátumra, az átlagos idő ablak számára
+     *
+     * @param ido rögzitett idő másodpercben.
+     * @return rögzített idő hh:mm:ss (String) formátumban.
+     */
+    private String idoKonvertalo(float ido){
+        int ora = 0; 
+        int perc = 0;
+        int masodperc = 0;
+        
+        //másodperc tördelése -> perc, óra
+        while((ido / 60.0) >= 1.0){
+            ido -= 60.0;
+            ++perc;
+            if(perc == 60){
+                perc = 0;
+                ++ora;
+            }
+        }
+        masodperc = (int) ido;
+        
+        String o = "";
+        String p = "";
+        String mp = "";
+        
+        //a két számjegyű idő-értékek biztosítása ( '1' helyett "01", stb. )
+        if(ora < 10){
+            o = "0";
+            o += ora;
+        }
+        else{
+            o += ora;
+        }
+        
+        if(perc < 10){
+            p = "0";
+            p += perc;
+        }
+        else{
+            p += perc;
+        }    
+        
+        if(masodperc < 10){
+            mp = "0";
+            mp += masodperc;
+        }
+        else{
+            mp += masodperc;
+        }
+        
+        return o+":"+p+":"+mp;
+    }
+    
+    /**
+    * Average Time window - Megjeleníti a pálya méretekhez rendelt átlagos időt    
+    * @param size Pálya mérete.
+    */
     private void averageTime(int size) {
 
         JFrame frame = new JFrame("Átlagos idő");
@@ -312,21 +368,21 @@ public class MinesweeperView extends JFrame {
                     if (Statistics.getInstance().getAverageTime(5) < 0) {
                         eredmeny = new JLabel("Átlagos idő az 5x5-ös táblán: Még nincs bejegyzett eredmény!");
                     } else {
-                        eredmeny = new JLabel("Átlagos idő  az 5x5-ös táblán: " + Statistics.getInstance().getAverageTime(5));
+                        eredmeny = new JLabel("Átlagos idő  az 5x5-ös táblán: " + idoKonvertalo(Statistics.getInstance().getAverageTime(5)));
                     }
                 } //10x10 field
                 else if (size == 10) {
                     if (Statistics.getInstance().getAverageTime(10) < 0) {
                         eredmeny = new JLabel("Átlagos idő az 10x10-es táblán: Még nincs bejegyzett eredmény!");
                     } else {
-                        eredmeny = new JLabel("Átlagos idő az 10x10-es táblán: " + Statistics.getInstance().getAverageTime(10));
+                        eredmeny = new JLabel("Átlagos idő az 10x10-es táblán: " + idoKonvertalo(Statistics.getInstance().getAverageTime(10)));
                     }
                 } //15x15 field
                 else if (size == 15) {
                     if (Statistics.getInstance().getAverageTime(15) < 0) {
                         eredmeny = new JLabel("Átlagos idő az 15x15-ös táblán: Még nincs bejegyzett eredmény!");
                     } else {
-                        eredmeny = new JLabel("Átlagos idő az 15x15-ös táblán: " + Statistics.getInstance().getAverageTime(15));
+                        eredmeny = new JLabel("Átlagos idő az 15x15-ös táblán: " + idoKonvertalo(Statistics.getInstance().getAverageTime(15)));
                     }
                 }
                 //Ok button to close Average time window
@@ -352,7 +408,10 @@ public class MinesweeperView extends JFrame {
 
     }
 
-    //winner count window
+    /**
+    * Winner Count window - Megjelenítő a pálya méretekhez rendelt győztesek számát
+    * @param size Pálya mérete.
+    */
     private void winnerCount(int size) {
         JFrame frame = new JFrame("Győztesek száma");
         class GyoztesekSzama extends JPanel {
@@ -415,7 +474,10 @@ public class MinesweeperView extends JFrame {
         frame.setVisible(true);
     }
 
-    //winners list window
+    /**
+    * Winners list window - Megjeleníti a győztesek listáját
+    * @param size Pálya mérete.
+    */
     private void winners() {
         //getting list of the winners
         List<Winner> nyertesek = Statistics.getInstance().getWinners();
@@ -464,8 +526,11 @@ public class MinesweeperView extends JFrame {
         frame.setVisible(true);
 
     }
-
-    //recorders window
+    
+    /**
+    * Recorders window - Megjeleníti a pályaméretekhez rendelt rekorder nevét 
+    * @param size Pálya mérete.
+    */
     private void rekorders(int size) {
         JFrame frame = new JFrame("Rekorder");
         class Rekorderek extends JPanel {
@@ -520,7 +585,10 @@ public class MinesweeperView extends JFrame {
         frame.setVisible(true);
     }
 
-    //most winners window
+    /**
+    * Most winners window - megjeleníti a pályaméretekhez rendelt legtöbbször nyerő játékos nevét
+    * @param size Pálya mérete.
+    */
     private void mostWinners(int size) {
         JFrame frame = new JFrame("Legtöbbet nyerő játékosok");
         class LegtobbNyeres extends JPanel {
