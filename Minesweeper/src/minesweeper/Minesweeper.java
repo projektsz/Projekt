@@ -1,8 +1,6 @@
 package minesweeper;
 
 import View.MinesweeperView;
-import model.IModel;
-import model.Model;
 
 /**
  *
