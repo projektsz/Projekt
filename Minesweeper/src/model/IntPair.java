@@ -1,7 +1,7 @@
 package model;
 
 /**
- * Classic pair class like C++ style std::pair<int, int>. It has public first,
+ * Classic pair class like C++ style std::pair&lt;int, int&gt;. It has public first,
  * second field compareTo method (implements Comparable).
  *
  * @author kmate

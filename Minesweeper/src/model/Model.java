@@ -98,7 +98,7 @@ public class Model implements IModel {
     }
 
     /**
-     * See {@link IModel#numberOfNearlyMines()}
+     * See {@link IModel#numberOfNearlyMines(int x, int y)}
      */
     @Override
     public int numberOfNearlyMines(int x, int y) {
@@ -133,7 +133,7 @@ public class Model implements IModel {
     }
 
     /**
-     * See {@link IModel#findEmptyNeighbors()}
+     * See {@link IModel#findEmptyNeighbors(int x, int y)}
      */
     @Override
     public Collection<IntPair> findEmptyNeighbors(int x, int y) {
