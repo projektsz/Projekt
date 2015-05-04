@@ -58,7 +58,6 @@ public class StatisticsTest {
      */
     @Test
     public void testGetInstance() {
-        System.out.println("getInstance");
         Statistics expResult = Statistics.getInstance();
         Statistics result = Statistics.getInstance();
         assertEquals(expResult, result);
@@ -69,7 +68,6 @@ public class StatisticsTest {
      */
     @Test
     public void testIsStatfileExists() {
-        System.out.println("isStatfileExists");
         Statistics instance = Statistics.getInstance();
         boolean expResult = true;
         boolean result = instance.isStatfileExists();
@@ -81,7 +79,6 @@ public class StatisticsTest {
      */
     @Test
     public void testDeleteStatFile() {
-        System.out.println("deleteStatFile");
         Statistics instance = Statistics.getInstance();
         instance.deleteStatFile();
         assertEquals(0, instance.getWinnerCount());
@@ -92,7 +89,6 @@ public class StatisticsTest {
      */
     @Test
     public void testCreateStatFile() {
-        System.out.println("createStatFile");
         Statistics instance = Statistics.getInstance();
         try {
             instance.createStatFile();
@@ -106,7 +102,6 @@ public class StatisticsTest {
      */
     @Test
     public void testAddWinner_3args() {
-        System.out.println("addWinner");
         String name = "TestUserAddWinner_3args";
         int gametype = 1;
         int time = 56;
@@ -122,7 +117,6 @@ public class StatisticsTest {
      */
     @Test
     public void testAddWinner_Winner() {
-        System.out.println("addWinner");
         Winner winner = new Winner("TestUserAddWinner", 0, 40);
         Statistics instance = Statistics.getInstance();
 
@@ -136,7 +130,6 @@ public class StatisticsTest {
      */
     @Test
     public void testGetRecorder() {
-        System.out.println("getRecorder");
         Statistics instance = Statistics.getInstance();
 
         Winner result = instance.getRecorder(0);
@@ -160,8 +153,6 @@ public class StatisticsTest {
      */
     @Test
     public void testGetAverageTime() {
-        System.out.println("getAverageTime");
-
         Statistics instance = Statistics.getInstance();
 
         float result = instance.getAverageTime(0);
@@ -179,8 +170,6 @@ public class StatisticsTest {
      */
     @Test
     public void testGetWinnerCount_int() {
-        System.out.println("getWinnerCount");
-
         Statistics instance = Statistics.getInstance();
 
         int result = instance.getWinnerCount(0);
@@ -198,7 +187,6 @@ public class StatisticsTest {
      */
     @Test
     public void testGetWinnerCount_0args() {
-        System.out.println("getWinnerCount");
         Statistics instance = Statistics.getInstance();
         int expResult = 21;
         int result = instance.getWinnerCount();
@@ -210,8 +198,6 @@ public class StatisticsTest {
      */
     @Test
     public void testGetMostWinner_int() {
-        System.out.println("getMostWinner");
-
         Statistics instance = Statistics.getInstance();
 
         String result = instance.getMostWinner(0);
@@ -229,7 +215,6 @@ public class StatisticsTest {
      */
     @Test
     public void testGetMostWinner_0args() {
-        System.out.println("getMostWinner");
         Statistics instance = Statistics.getInstance();
         String expResult = "TestUser0";
         String result = instance.getMostWinner();
@@ -241,7 +226,6 @@ public class StatisticsTest {
      */
     @Test
     public void testGetWinners() {
-        System.out.println("getWinners");
         Statistics instance = Statistics.getInstance();
         List<Winner> result = instance.getWinners();
         assertEquals(21, result.size());
