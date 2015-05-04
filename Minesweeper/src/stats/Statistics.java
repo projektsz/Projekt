@@ -7,7 +7,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -176,10 +175,9 @@ public class Statistics {
                 atlagido += winners.get(i).getTime();
             }
         }
-        if(ido > 0 && atlagido > 0){
+        if (ido > 0 && atlagido > 0) {
             atlagido = atlagido / ido;
-        }else
-        {
+        } else {
             atlagido = -1;
         }
         return atlagido;
