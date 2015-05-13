@@ -138,14 +138,14 @@ public class MinesweeperView extends JFrame {
             } catch (FieldIsMineException ex) {
                 ((GameButton) e.getSource()).setBackground(Color.RED);
                 timer.stop();
-                JOptionPane.showMessageDialog(null, "VESZTETTÉL");
+                JOptionPane.showMessageDialog(null, "VESZTETTÉL", "Vége a játéknak", JOptionPane.ERROR_MESSAGE);
                 startNewGame(size);
                 return;
             }
             if (logic.isFine()) {
                 timer.stop();
                 Statistics.getInstance().addWinner(name, size, time);
-                JOptionPane.showMessageDialog(null, "NYERTÉL");
+                JOptionPane.showMessageDialog(null, "NYERTÉL", "Vége a játéknak", JOptionPane.WARNING_MESSAGE);
                 startNewGame(size);
             }
         }
@@ -176,7 +176,7 @@ public class MinesweeperView extends JFrame {
                         break;
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Add meg a neved");
+                JOptionPane.showMessageDialog(null, "Add meg a neved!", "Üres név mező!", JOptionPane.ERROR_MESSAGE);
             }
         }
     };
@@ -277,7 +277,7 @@ public class MinesweeperView extends JFrame {
                     name = jtf.getText();
                     startNewGame(size);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Add meg a neved");
+                    JOptionPane.showMessageDialog(null, "Add meg a neved!", "Üres név mező!", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
