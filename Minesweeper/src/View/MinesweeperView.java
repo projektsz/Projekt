@@ -7,12 +7,13 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Collection;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
@@ -28,10 +29,9 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
-import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import model.FieldIsMineException;
 import model.FieldIsPushedException;
@@ -79,7 +79,7 @@ public class MinesweeperView extends JFrame {
     /**
      * Gombok tárolása mátrixban.
      */
-    private JToggleButton[][] gameButtons;
+    private GameButton[][] gameButtons;
 
     /**
      * Konstruktor
@@ -120,6 +120,28 @@ public class MinesweeperView extends JFrame {
         return t;
     }
 
+    private final MouseListener mouseListener = new MouseAdapter() {
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            if (SwingUtilities.isRightMouseButton(e)) {
+                GameButton button = ((GameButton) e.getSource());
+                if (!logic.isPushed(button.getXB(), button.getYB())) {
+                    if (button.isFlagged()) {
+                        button.clearImage();
+                        button.setFlagged(false);
+                        button.setSelected(false);
+                    } else {
+                        button.setFlagImage();
+                        button.setFlagged(true);
+                        button.setSelected(true);
+                    }
+                }
+            }
+        }
+
+    };
+
     /**
      * Gomb kattintás listener.
      */
@@ -127,7 +149,7 @@ public class MinesweeperView extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             GameButton button = ((GameButton) e.getSource());
-            if (button.isSelected()) {
+            if (!button.isFlagged()) {
                 try {
                     logic.push(button.getXB(), button.getYB());
                     int num = logic.numberOfNearlyMines(button.getXB(), button.getYB());
@@ -136,6 +158,8 @@ public class MinesweeperView extends JFrame {
                         Collection<IntPair> arr = logic.findEmptyNeighbors(button.getXB(), button.getYB());
                         for (IntPair x : arr) {
                             gameButtons[x.first][x.second].setText(Integer.toString(logic.numberOfNearlyMines(x.first, x.second)));
+                            gameButtons[x.first][x.second].setFlagged(false);
+                            gameButtons[x.first][x.second].clearImage();
                             gameButtons[x.first][x.second].setSelected(true);
                         }
                     }
@@ -154,9 +178,8 @@ public class MinesweeperView extends JFrame {
                     JOptionPane.showMessageDialog(null, "NYERTÉL", "Vége a játéknak", JOptionPane.WARNING_MESSAGE);
                     startNewGame(size);
                 }
-            } else {
-                button.setSelected(true);
             }
+            button.setSelected(true);
         }
     };
 
@@ -235,11 +258,12 @@ public class MinesweeperView extends JFrame {
      */
     void initGameField(int size) {
         JPanel jp = new JPanel(new GridLayout(size, size));
-        gameButtons = new JToggleButton[size][size];
+        gameButtons = new GameButton[size][size];
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 GameButton jb = new GameButton(i, j);
                 jb.addActionListener(gameButtonListener);
+                jb.addMouseListener(mouseListener);
                 jp.add(jb);
                 gameButtons[i][j] = jb;
             }
@@ -299,64 +323,64 @@ public class MinesweeperView extends JFrame {
         jp.add(new JLabel());
 
     }
-     /**
-     * Megjelenítendő idő átalakítása másodpercből szabvány hh:mm:ss formátumra, az átlagos idő ablak számára
+
+    /**
+     * Megjelenítendő idő átalakítása másodpercből szabvány hh:mm:ss formátumra,
+     * az átlagos idő ablak számára
      *
      * @param ido rögzitett idő másodpercben.
      * @return rögzített idő hh:mm:ss (String) formátumban.
      */
-    private String idoKonvertalo(float ido){
-        int ora = 0; 
+    private String idoKonvertalo(float ido) {
+        int ora = 0;
         int perc = 0;
         int masodperc = 0;
-        
+
         //másodperc tördelése -> perc, óra
-        while((ido / 60.0) >= 1.0){
+        while ((ido / 60.0) >= 1.0) {
             ido -= 60.0;
             ++perc;
-            if(perc == 60){
+            if (perc == 60) {
                 perc = 0;
                 ++ora;
             }
         }
         masodperc = (int) ido;
-        
+
         String o = "";
         String p = "";
         String mp = "";
-        
+
         //a két számjegyű idő-értékek biztosítása ( '1' helyett "01", stb. )
-        if(ora < 10){
+        if (ora < 10) {
             o = "0";
             o += ora;
-        }
-        else{
+        } else {
             o += ora;
         }
-        
-        if(perc < 10){
+
+        if (perc < 10) {
             p = "0";
             p += perc;
-        }
-        else{
+        } else {
             p += perc;
-        }    
-        
-        if(masodperc < 10){
+        }
+
+        if (masodperc < 10) {
             mp = "0";
             mp += masodperc;
-        }
-        else{
+        } else {
             mp += masodperc;
         }
-        
-        return o+":"+p+":"+mp;
+
+        return o + ":" + p + ":" + mp;
     }
-    
+
     /**
-    * Average Time window - Megjeleníti a pálya méretekhez rendelt átlagos időt    
-    * @param size Pálya mérete.
-    */
+     * Average Time window - Megjeleníti a pálya méretekhez rendelt átlagos időt
+     *
+     * @param size Pálya mérete.
+     */
     private void averageTime(int size) {
 
         JFrame frame = new JFrame("Átlagos idő");
@@ -414,9 +438,11 @@ public class MinesweeperView extends JFrame {
     }
 
     /**
-    * Winner Count window - Megjelenítő a pálya méretekhez rendelt győztesek számát
-    * @param size Pálya mérete.
-    */
+     * Winner Count window - Megjelenítő a pálya méretekhez rendelt győztesek
+     * számát
+     *
+     * @param size Pálya mérete.
+     */
     private void winnerCount(int size) {
         JFrame frame = new JFrame("Győztesek száma");
         class GyoztesekSzama extends JPanel {
@@ -480,9 +506,10 @@ public class MinesweeperView extends JFrame {
     }
 
     /**
-    * Winners list window - Megjeleníti a győztesek listáját
-    * @param size Pálya mérete.
-    */
+     * Winners list window - Megjeleníti a győztesek listáját
+     *
+     * @param size Pálya mérete.
+     */
     private void winners() {
         //getting list of the winners
         List<Winner> nyertesek = Statistics.getInstance().getWinners();
@@ -531,11 +558,12 @@ public class MinesweeperView extends JFrame {
         frame.setVisible(true);
 
     }
-    
+
     /**
-    * Recorders window - Megjeleníti a pályaméretekhez rendelt rekorder nevét 
-    * @param size Pálya mérete.
-    */
+     * Recorders window - Megjeleníti a pályaméretekhez rendelt rekorder nevét
+     *
+     * @param size Pálya mérete.
+     */
     private void rekorders(int size) {
         JFrame frame = new JFrame("Rekorder");
         class Rekorderek extends JPanel {
@@ -591,9 +619,11 @@ public class MinesweeperView extends JFrame {
     }
 
     /**
-    * Most winners window - megjeleníti a pályaméretekhez rendelt legtöbbször nyerő játékos nevét
-    * @param size Pálya mérete.
-    */
+     * Most winners window - megjeleníti a pályaméretekhez rendelt legtöbbször
+     * nyerő játékos nevét
+     *
+     * @param size Pálya mérete.
+     */
     private void mostWinners(int size) {
         JFrame frame = new JFrame("Legtöbbet nyerő játékosok");
         class LegtobbNyeres extends JPanel {
