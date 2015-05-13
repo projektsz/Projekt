@@ -11,6 +11,8 @@ import java.util.Collection;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
@@ -26,8 +28,10 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import model.FieldIsMineException;
 import model.FieldIsPushedException;
@@ -75,7 +79,7 @@ public class MinesweeperView extends JFrame {
     /**
      * Gombok tárolása mátrixban.
      */
-    private JButton[][] gameButtons;
+    private JToggleButton[][] gameButtons;
 
     /**
      * Konstruktor
@@ -122,31 +126,36 @@ public class MinesweeperView extends JFrame {
     private final ActionListener gameButtonListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            try {
-                logic.push(((GameButton) e.getSource()).getXB(), ((GameButton) e.getSource()).getYB());
-                int num = logic.numberOfNearlyMines(((GameButton) e.getSource()).getXB(), ((GameButton) e.getSource()).getYB());
-                ((GameButton) e.getSource()).setText(Integer.toString(num));
-                if (num == 0) {
-                    Collection<IntPair> arr = logic.findEmptyNeighbors(((GameButton) e.getSource()).getXB(), ((GameButton) e.getSource()).getYB());
-                    for (IntPair x : arr) {
-                        gameButtons[x.first][x.second].setText(Integer.toString(logic.numberOfNearlyMines(x.first, x.second)));
+            GameButton button = ((GameButton) e.getSource());
+            if (button.isSelected()) {
+                try {
+                    logic.push(button.getXB(), button.getYB());
+                    int num = logic.numberOfNearlyMines(button.getXB(), button.getYB());
+                    ((GameButton) e.getSource()).setText(Integer.toString(num));
+                    if (num == 0) {
+                        Collection<IntPair> arr = logic.findEmptyNeighbors(button.getXB(), button.getYB());
+                        for (IntPair x : arr) {
+                            gameButtons[x.first][x.second].setText(Integer.toString(logic.numberOfNearlyMines(x.first, x.second)));
+                            gameButtons[x.first][x.second].setSelected(true);
+                        }
                     }
+                } catch (FieldIsPushedException ex) {
+                    //SKIP
+                } catch (FieldIsMineException ex) {
+                    button.setMineImage();
+                    timer.stop();
+                    JOptionPane.showMessageDialog(null, "VESZTETTÉL", "Vége a játéknak", JOptionPane.ERROR_MESSAGE);
+                    startNewGame(size);
+                    return;
                 }
-
-            } catch (FieldIsPushedException ex) {
-                //TODO
-            } catch (FieldIsMineException ex) {
-                ((GameButton) e.getSource()).setBackground(Color.RED);
-                timer.stop();
-                JOptionPane.showMessageDialog(null, "VESZTETTÉL", "Vége a játéknak", JOptionPane.ERROR_MESSAGE);
-                startNewGame(size);
-                return;
-            }
-            if (logic.isFine()) {
-                timer.stop();
-                Statistics.getInstance().addWinner(name, size, time);
-                JOptionPane.showMessageDialog(null, "NYERTÉL", "Vége a játéknak", JOptionPane.WARNING_MESSAGE);
-                startNewGame(size);
+                if (logic.isFine()) {
+                    timer.stop();
+                    Statistics.getInstance().addWinner(name, size, time);
+                    JOptionPane.showMessageDialog(null, "NYERTÉL", "Vége a játéknak", JOptionPane.WARNING_MESSAGE);
+                    startNewGame(size);
+                }
+            } else {
+                button.setSelected(true);
             }
         }
     };
@@ -226,7 +235,7 @@ public class MinesweeperView extends JFrame {
      */
     void initGameField(int size) {
         JPanel jp = new JPanel(new GridLayout(size, size));
-        gameButtons = new JButton[size][size];
+        gameButtons = new JToggleButton[size][size];
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 GameButton jb = new GameButton(i, j);
