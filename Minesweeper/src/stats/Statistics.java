@@ -18,6 +18,7 @@ import java.util.Scanner;
  * Fajlbol beolvassa a statisztikai adatokat.
  *
  * @author Balázs
+ * @author Bia
  */
 public class Statistics {
 
