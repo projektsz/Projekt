@@ -1,4 +1,4 @@
-package View;
+package view;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -12,13 +12,12 @@ import javax.swing.JToggleButton;
  */
 public class GameButton extends JToggleButton {
 
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
     private BufferedImage image;
     private boolean flagged;
 
     public GameButton(int x, int y) {
-        //super();
         this.x = x;
         this.y = y;
         image = null;
@@ -32,7 +31,7 @@ public class GameButton extends JToggleButton {
     public boolean isFlagged() {
         return flagged;
     }
-    
+
     public int getXB() {
         return x;
     }
@@ -45,7 +44,7 @@ public class GameButton extends JToggleButton {
         try {
             image = ImageIO.read(getClass().getResourceAsStream("/img/mine.png"));
         } catch (IOException ex) {
-            System.out.println("File not found!");
+            System.err.println("File not found!");
         }
         repaint();
     }
@@ -54,11 +53,11 @@ public class GameButton extends JToggleButton {
         try {
             image = ImageIO.read(getClass().getResourceAsStream("/img/flag.png"));
         } catch (IOException ex) {
-            System.out.println("File not found!");
+            System.err.println("File not found!");
         }
         repaint();
     }
-    
+
     public void clearImage() {
         image = null;
         repaint();

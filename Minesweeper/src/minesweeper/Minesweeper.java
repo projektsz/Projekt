@@ -1,6 +1,6 @@
 package minesweeper;
 
-import View.MinesweeperView;
+import view.MinesweeperView;
 
 /**
  *
