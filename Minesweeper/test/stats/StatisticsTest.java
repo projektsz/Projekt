@@ -6,6 +6,7 @@
 package stats;
 
 import java.util.List;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -51,6 +52,12 @@ public class StatisticsTest {
         s.addWinner("TestUser1", 1, 19);
         s.addWinner("TestUser7", 0, 22);
         s.addWinner("TestUser8", 2, 74);
+    }
+
+    @After
+    public void tearDown() {
+        Statistics s = Statistics.getInstance();
+        s.deleteStatFile();
     }
 
     /**
