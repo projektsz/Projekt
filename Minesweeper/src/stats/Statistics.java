@@ -7,6 +7,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -137,7 +138,7 @@ public class Statistics {
      * Megadja ki tartja a rekordot az adott jatektipusban.
      *
      * @param type A jatek tipusa
-     * @return A gyoztes
+     * @return A gyoztes, null ha meg senki sem nyert az adott tipusban
      */
     public Winner getRecorder(int type) {
         Winner gyoztes = null;
@@ -164,7 +165,7 @@ public class Statistics {
      * jatekot.
      *
      * @param type A jatek tipusa
-     * @return Atlag ido
+     * @return Atlag ido, ha nincs adat az adott tipusbol akkor -1
      */
     public float getAverageTime(int type) {
         float ido = 0;
@@ -217,8 +218,9 @@ public class Statistics {
      * Megadja annak a jatekosnak a nevet aki a legtobbszor nyert, a
      * parameterben megkapott jatektipusban.
      *
-     * @param type A jatek tipusa amiben keressuk a leggyakoribb nyertest
-     * @return Jatekos neve
+     * @param type A jatek tipusa amiben keressuk a leggyakoribb nyertest, -1 ha
+     * bármilyen típus
+     * @return Jatekos neve, ha nincs a megadott tipusban nyertes akkor null.
      */
     public String getMostWinner(int type) {
         Winner[] tomb = winners.toArray(new Winner[winners.size()]);
@@ -227,30 +229,14 @@ public class Statistics {
             return null;
         }
 
-        for (int i = tomb.length - 1; i > 0; i--) {
-            for (int j = 0; j < i; j++) {
-                if (tomb[j + 1].getName().compareToIgnoreCase(tomb[j].getName()) < 0) {
-                    Winner nev = tomb[j];
-                    tomb[j] = tomb[j + 1];
-                    tomb[j + 1] = nev;
-                }
-            }
-        }
+        Arrays.sort(tomb);
 
-        int szamol = 1;
+        int szamol = 0;
         int max = 0;
         String nev = null;
 
-        if (tomb.length == 1) {
-            if (type == tomb[0].getGametype()) {
-                return tomb[0].getName();
-            } else {
-                return null;
-            }
-        }
-
         for (int i = 0; i < tomb.length - 1; i++) {
-            if (type == tomb[i].getGametype()) {
+            if (type == -1 || type == tomb[i].getGametype()) {
                 if (tomb[i].getName().equals(tomb[i + 1].getName())) {
                     szamol++;
                 } else {
@@ -271,43 +257,10 @@ public class Statistics {
      * Megadja annak a jatekosnak a nevet aki a legtobbszor nyert, akarmelyik
      * jatektipusban.
      *
-     * @return Jatekos neve
+     * @return Jatekos neve, ha nincs nyertes akkor null.
      */
     public String getMostWinner() {
-        Winner[] tomb = winners.toArray(new Winner[winners.size()]);
-
-        if (tomb.length == 0) {
-            return null;
-        }
-
-        for (int i = tomb.length - 1; i > 0; i--) {
-            for (int j = 0; j < i; j++) {
-                if (tomb[j + 1].getName().compareToIgnoreCase(tomb[j].getName()) < 0) {
-                    Winner nev = tomb[j];
-                    tomb[j] = tomb[j + 1];
-                    tomb[j + 1] = nev;
-                }
-            }
-        }
-
-        int szamol = 0;
-        int max = 0;
-        String nev = tomb[0].getName();
-
-        for (int i = 0; i < tomb.length - 1; i++) {
-            if (tomb[i].getName().equals(tomb[i + 1].getName())) {
-                szamol++;
-            } else {
-                szamol = 0;
-            }
-
-            if (szamol > max) {
-                max = szamol;
-                nev = tomb[i].getName();
-            }
-        }
-
-        return nev;
+        return getMostWinner(-1);
     }
 
     /**

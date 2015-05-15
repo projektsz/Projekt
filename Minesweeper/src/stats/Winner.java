@@ -7,7 +7,7 @@ import java.util.Date;
  *
  * @author Balázs
  */
-public class Winner {
+public class Winner implements Comparable<Winner> {
 
     /**
      * A jatekos neve
@@ -59,5 +59,10 @@ public class Winner {
     @Override
     public String toString() {
         return "Winner{" + "name=" + name + ", gametype=" + gametype + ", time=" + time + " mp, date=" + date.toString() + '}';
+    }
+
+    @Override
+    public int compareTo(Winner o) {
+        return name.compareToIgnoreCase(o.name);
     }
 }
