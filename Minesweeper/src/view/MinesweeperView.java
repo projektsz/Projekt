@@ -532,7 +532,7 @@ public class MinesweeperView extends JFrame {
                 for (Winner winner : nyertesek) {
                     model.addElement(winner.toString());
                 }
-                //case of empty list 
+                //case of empty list
                 if (nyertesek.isEmpty()) {
                     model.addElement("Még nem nyert senki a játékban!");
                 }
@@ -637,7 +637,7 @@ public class MinesweeperView extends JFrame {
 
                 //all of fields
                 if (size == 0) {
-                    if (Statistics.getInstance().getMostWinner().equals("")) {
+                    if (Statistics.getInstance().getMostWinner() == null) {
                         eredmeny = new JLabel("Az összes táblán a legtöbbet nyerte: Még nincs bejegyzett játékos!");
                     } else {
                         eredmeny = new JLabel("Az összes táblán a legtöbbet nyerte: " + Statistics.getInstance().getMostWinner());
@@ -645,21 +645,21 @@ public class MinesweeperView extends JFrame {
                 }
                 //5x5 field
                 if (size == 5) {
-                    if (Statistics.getInstance().getMostWinner(5).equals("")) {
+                    if (Statistics.getInstance().getMostWinner(5) == null) {
                         eredmeny = new JLabel("Az 5x5-ös táblán a legtöbbet nyerte: Még nincs bejegyzett játékos!");
                     } else {
                         eredmeny = new JLabel("Az 5x5-ös táblán a legtöbbet nyerte: " + Statistics.getInstance().getMostWinner(5));
                     }
                 } //10x10 field
                 else if (size == 10) {
-                    if (Statistics.getInstance().getMostWinner(10).equals("")) {
+                    if (Statistics.getInstance().getMostWinner(10) == null) {
                         eredmeny = new JLabel("Az 10x10-es táblán a legtöbbet nyerte: Még nincs bejegyzett játékos!");
                     } else {
                         eredmeny = new JLabel("Az 10x10-es táblán a legtöbbet nyerte: " + Statistics.getInstance().getMostWinner(10));
                     }
                 } //15x15 field
                 else if (size == 15) {
-                    if (Statistics.getInstance().getMostWinner(15).equals("")) {
+                    if (Statistics.getInstance().getMostWinner(15) == null) {
                         eredmeny = new JLabel("Az 15x15-ös táblán a legtöbbet nyerte: Még nincs bejegyzett játékos!");
                     } else {
                         eredmeny = new JLabel("Az 15x15-ös táblán a legtöbbet nyerte: " + Statistics.getInstance().getMostWinner(15));
