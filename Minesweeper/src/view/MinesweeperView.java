@@ -529,11 +529,13 @@ public class MinesweeperView extends JFrame {
                 list = new JList(model);    //creation of list
                 JScrollPane pane = new JScrollPane(list);
                 
+                SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy. MM. dd : HH:mm");
                 String date = "";               
                 
                 //list filling with values
                 for (Winner winner : nyertesek) {
                     date = DATE_FORMAT.format(winner.getDate()); 
+                    model.addElement("GYŐZTES NEVE: " + winner.getName() + ", JÁTÉK TÍPUS: " + winner.getGametype()+"x"+winner.getGametype() + ", IDEJE: " + idoKonvertalo(winner.getTime()) +", DÁTUM: " + date);
                 }
                 //case of empty list
                 if (nyertesek.isEmpty()) {
