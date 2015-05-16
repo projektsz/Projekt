@@ -231,9 +231,9 @@ public class Statistics {
 
         Arrays.sort(tomb);
 
-        int szamol = 0;
+        int szamol = 1;
         int max = 0;
-        String nev = null;
+        String nev = tomb[0].getName();
 
         for (int i = 0; i < tomb.length - 1; i++) {
             if (type == -1 || type == tomb[i].getGametype()) {
