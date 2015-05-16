@@ -27,31 +27,31 @@ public class StatisticsTest {
         s.createStatFile();
 
         //10 felhasznaloval tesztelunk
-        s.addWinner("TestUser0", 0, 23);
-        s.addWinner("TestUser1", 0, 31);
-        s.addWinner("TestUser2", 1, 45);
-        s.addWinner("TestUser3", 1, 36);
-        s.addWinner("TestUser4", 1, 31);
-        s.addWinner("TestUser5", 2, 61);
-        s.addWinner("TestUser6", 2, 69);
-        s.addWinner("TestUser7", 2, 58);
-        s.addWinner("TestUser8", 2, 59);
-        s.addWinner("TestUser9", 2, 68);
+        s.addWinner("TestUser0", 5, 23);
+        s.addWinner("TestUser1", 5, 31);
+        s.addWinner("TestUser2", 10, 45);
+        s.addWinner("TestUser3", 10, 36);
+        s.addWinner("TestUser4", 10, 31);
+        s.addWinner("TestUser5", 15, 61);
+        s.addWinner("TestUser6", 15, 69);
+        s.addWinner("TestUser7", 15, 58);
+        s.addWinner("TestUser8", 15, 59);
+        s.addWinner("TestUser9", 15, 68);
 
         //Nehanyan tobszor is jatszottak ugyan azt
-        s.addWinner("TestUser0", 0, 21);
-        s.addWinner("TestUser0", 0, 20);
-        s.addWinner("TestUser0", 0, 21);
-        s.addWinner("TestUser1", 0, 36);
-        s.addWinner("TestUser2", 1, 46);
-        s.addWinner("TestUser7", 2, 50);
-        s.addWinner("TestUser8", 2, 70);
-        s.addWinner("TestUser9", 2, 67);
+        s.addWinner("TestUser0", 5, 21);
+        s.addWinner("TestUser0", 5, 20);
+        s.addWinner("TestUser0", 5, 21);
+        s.addWinner("TestUser1", 5, 36);
+        s.addWinner("TestUser2", 10, 46);
+        s.addWinner("TestUser7", 15, 50);
+        s.addWinner("TestUser8", 15, 70);
+        s.addWinner("TestUser9", 15, 67);
 
         //Ezek kozul vannak akik mast is jatszottak
-        s.addWinner("TestUser1", 1, 19);
-        s.addWinner("TestUser7", 0, 22);
-        s.addWinner("TestUser8", 2, 74);
+        s.addWinner("TestUser1", 10, 19);
+        s.addWinner("TestUser7", 5, 22);
+        s.addWinner("TestUser8", 15, 74);
     }
 
     @After
@@ -139,19 +139,19 @@ public class StatisticsTest {
     public void testGetRecorder() {
         Statistics instance = Statistics.getInstance();
 
-        Winner result = instance.getRecorder(0);
+        Winner result = instance.getRecorder(5);
         assertEquals("TestUser0", result.getName());
-        assertEquals(0, result.getGametype());
+        assertEquals(5, result.getGametype());
         assertEquals(20, result.getTime());
 
-        result = instance.getRecorder(1);
+        result = instance.getRecorder(10);
         assertEquals("TestUser1", result.getName());
-        assertEquals(1, result.getGametype());
+        assertEquals(10, result.getGametype());
         assertEquals(19, result.getTime());
 
-        result = instance.getRecorder(2);
+        result = instance.getRecorder(15);
         assertEquals("TestUser7", result.getName());
-        assertEquals(2, result.getGametype());
+        assertEquals(15, result.getGametype());
         assertEquals(50, result.getTime());
     }
 
@@ -162,13 +162,13 @@ public class StatisticsTest {
     public void testGetAverageTime() {
         Statistics instance = Statistics.getInstance();
 
-        float result = instance.getAverageTime(0);
+        float result = instance.getAverageTime(5);
         assertEquals(174.0 / 7.0, result, 0.1);
 
-        result = instance.getAverageTime(1);
+        result = instance.getAverageTime(10);
         assertEquals(177.0 / 5.0, result, 0.1);
 
-        result = instance.getAverageTime(2);
+        result = instance.getAverageTime(15);
         assertEquals(576.0 / 9.0, result, 0.1);
     }
 
@@ -179,13 +179,13 @@ public class StatisticsTest {
     public void testGetWinnerCount_int() {
         Statistics instance = Statistics.getInstance();
 
-        int result = instance.getWinnerCount(0);
+        int result = instance.getWinnerCount(5);
         assertEquals(7, result);
 
-        result = instance.getWinnerCount(1);
+        result = instance.getWinnerCount(10);
         assertEquals(5, result);
 
-        result = instance.getWinnerCount(2);
+        result = instance.getWinnerCount(15);
         assertEquals(9, result);
     }
 
@@ -207,13 +207,13 @@ public class StatisticsTest {
     public void testGetMostWinner_int() {
         Statistics instance = Statistics.getInstance();
 
-        String result = instance.getMostWinner(0);
+        String result = instance.getMostWinner(5);
         assertEquals("TestUser0", result);
 
-        result = instance.getMostWinner(1);
+        result = instance.getMostWinner(10);
         assertEquals("TestUser2", result);
 
-        result = instance.getMostWinner(2);
+        result = instance.getMostWinner(15);
         assertEquals("TestUser8", result);
     }
 
