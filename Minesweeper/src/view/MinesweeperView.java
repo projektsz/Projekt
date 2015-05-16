@@ -193,17 +193,20 @@ public class MinesweeperView extends JFrame {
             if (!"".equals(name)) {
                 switch (((JMenuItem) e.getSource()).getText()) {
                     case "5×5":
-                        System.out.println("5");
+                        setPreferredSize(new Dimension(350, 350));
+                        pack();
                         size = 5;
                         startNewGame(5);
                         break;
                     case "10×10":
-                        System.out.println("10");
+                        setPreferredSize(new Dimension(500, 500));
+                        pack();
                         size = 10;
                         startNewGame(10);
                         break;
                     case "15×15":
-                        System.out.println("15");
+                        setPreferredSize(new Dimension(650, 650));
+                        pack();
                         size = 15;
                         startNewGame(15);
                         break;
@@ -246,7 +249,7 @@ public class MinesweeperView extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation(((Toolkit.getDefaultToolkit().getScreenSize().width - getSize().width) - 650) / 2, ((Toolkit.getDefaultToolkit().getScreenSize().height - getSize().height) - 650) / 2);
-        setPreferredSize(new Dimension(650, 650));
+        setPreferredSize(new Dimension(500, 500));
         pack();
         setTitle("Mine");
         add(gamePanel);
@@ -281,7 +284,7 @@ public class MinesweeperView extends JFrame {
         gamePanel.repaint();
 
         JPanel jp = new JPanel(new GridLayout(7, 1));
-        jp.setBorder(new EmptyBorder(90, 100, 90, 100));
+        jp.setBorder(new EmptyBorder(60, 100, 60, 100));
         gamePanel.add(jp, BorderLayout.CENTER);
 
         JTextField jtf = new JTextField();
@@ -299,12 +302,18 @@ public class MinesweeperView extends JFrame {
                     switch (cb.getSelectedItem().toString()) {
                         case "5×5":
                             size = 5;
+                            setPreferredSize(new Dimension(350, 350));
+                            pack();
                             break;
                         case "10×10":
                             size = 10;
+                            setPreferredSize(new Dimension(500, 500));
+                            pack();
                             break;
                         case "15×15":
                             size = 15;
+                            setPreferredSize(new Dimension(650, 650));
+                            pack();
                             break;
                     }
                     logic.createNew(size);
@@ -528,14 +537,14 @@ public class MinesweeperView extends JFrame {
                 model = new DefaultListModel();
                 list = new JList(model);    //creation of list
                 JScrollPane pane = new JScrollPane(list);
-                
+
                 SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy. MM. dd : HH:mm");
-                String date = "";               
-                
+                String date = "";
+
                 //list filling with values
                 for (Winner winner : nyertesek) {
-                    date = DATE_FORMAT.format(winner.getDate()); 
-                    model.addElement("GYŐZTES NEVE: " + winner.getName() + ", JÁTÉK TÍPUS: " + winner.getGametype()+"x"+winner.getGametype() + ", IDEJE: " + idoKonvertalo(winner.getTime()) +", DÁTUM: " + date);
+                    date = DATE_FORMAT.format(winner.getDate());
+                    model.addElement("GYŐZTES NEVE: " + winner.getName() + ", JÁTÉK TÍPUS: " + winner.getGametype() + "x" + winner.getGametype() + ", IDEJE: " + idoKonvertalo(winner.getTime()) + ", DÁTUM: " + date);
                 }
                 //case of empty list
                 if (nyertesek.isEmpty()) {
@@ -720,6 +729,8 @@ public class MinesweeperView extends JFrame {
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                setPreferredSize(new Dimension(500, 500));
+                pack();
                 createStartView();
             }
         });
