@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.List;
 import javax.swing.BorderFactory;
@@ -527,10 +528,12 @@ public class MinesweeperView extends JFrame {
                 model = new DefaultListModel();
                 list = new JList(model);    //creation of list
                 JScrollPane pane = new JScrollPane(list);
-
+                
+                String date = "";               
+                
                 //list filling with values
                 for (Winner winner : nyertesek) {
-                    model.addElement(winner.toString());
+                    date = DATE_FORMAT.format(winner.getDate()); 
                 }
                 //case of empty list
                 if (nyertesek.isEmpty()) {
