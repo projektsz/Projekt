@@ -46,6 +46,7 @@ import stats.Winner;
  * Az aknakereső játék UI részének létrehozására szolgáló osztály.
  *
  * @author Decsi
+ * @author András
  */
 public class MinesweeperView extends JFrame {
 
