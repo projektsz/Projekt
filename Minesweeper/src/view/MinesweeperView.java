@@ -253,6 +253,7 @@ public class MinesweeperView extends JFrame {
         pack();
         setTitle("Mine");
         add(gamePanel);
+		setResizable(false);
     }
 
     /**
