@@ -57,12 +57,15 @@ public class Statistics {
             if (isStatfileExists()) {
                 Scanner sc = new Scanner(new File("minesweeper.stats"));
                 while (sc.hasNext()) {
-                    String name = sc.next();
-                    while (!sc.hasNextInt()) {
-                        name += " " + sc.next();
+                    String line = sc.nextLine();
+                    String parts[] = line.split(" ");
+
+                    String name = parts[0];
+                    for (int i = 1; i < parts.length - 3; ++i) {
+                        name += " " + parts[i];
                     }
 
-                    winners.add(new Winner(name, sc.nextInt(), sc.nextInt(), new Date(sc.nextLong())));
+                    winners.add(new Winner(name, Integer.parseInt(parts[parts.length - 3]), Integer.parseInt(parts[parts.length - 2]), new Date(Long.parseLong(parts[parts.length - 1]))));
                 }
                 sc.close();
             }
