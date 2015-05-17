@@ -84,6 +84,11 @@ public class MinesweeperView extends JFrame {
     private GameButton[][] gameButtons;
 
     /**
+     * Név megadására szolgáló textfield.
+     */
+    JTextField jtf = new JTextField();
+
+    /**
      * Konstruktor
      */
     public MinesweeperView() {
@@ -191,6 +196,13 @@ public class MinesweeperView extends JFrame {
     private final ActionListener menuListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
+            name = jtf.getText();
+            try {
+                int i = Integer.parseInt(jtf.getText());
+                JOptionPane.showMessageDialog(null, "Számot nem lehet névnek megadni!", "Nem név!", JOptionPane.ERROR_MESSAGE);
+                return;
+            } catch (NumberFormatException ex) {
+            }
             if (!"".equals(name)) {
                 switch (((JMenuItem) e.getSource()).getText()) {
                     case "5×5":
@@ -254,7 +266,7 @@ public class MinesweeperView extends JFrame {
         pack();
         setTitle("Mine");
         add(gamePanel);
-		setResizable(false);
+        setResizable(false);
     }
 
     /**
@@ -289,7 +301,8 @@ public class MinesweeperView extends JFrame {
         jp.setBorder(new EmptyBorder(60, 100, 60, 100));
         gamePanel.add(jp, BorderLayout.CENTER);
 
-        JTextField jtf = new JTextField();
+        jtf.setText("");
+        name = "";
         JButton jb = new JButton("START");
 
         jtf.setBorder(BorderFactory.createLineBorder(Color.decode("#2C6791")));
@@ -300,6 +313,13 @@ public class MinesweeperView extends JFrame {
         jb.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try {
+                    int i = Integer.parseInt(jtf.getText());
+                    JOptionPane.showMessageDialog(null, "Számot nem lehet névnek megadni!", "Nem név!", JOptionPane.ERROR_MESSAGE);
+                    return;
+                } catch (NumberFormatException ex) {
+                }
+
                 if (!"".equals(jtf.getText())) {
                     switch (cb.getSelectedItem().toString()) {
                         case "5×5":
@@ -733,6 +753,7 @@ public class MinesweeperView extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 setPreferredSize(new Dimension(500, 500));
                 pack();
+                name = "";
                 createStartView();
             }
         });
